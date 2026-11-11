@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 399.81 64" width="400" height="64" role="img" aria-label="ImgsCompressor">
   <g transform="scale(2.0)"><defs>
-    <linearGradient id="lkh-cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#E8A892"/><stop offset="100%" stop-color="#E09B84"/></linearGradient>
-    <linearGradient id="lkhm-cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#D9846A"/><stop offset="100%" stop-color="#B85C44"/></linearGradient>
+    <linearGradient id="lkh-cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#BFDBFE"/><stop offset="100%" stop-color="#93C5FD"/></linearGradient>
+    <linearGradient id="lkhm-cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1E40AF"/></linearGradient>
   </defs>
   <!-- large back -->
   <rect x="2.0" y="9.0" width="21.0" height="21.0" rx="6.0" fill="url(#lkh-cg)"/>
-  <path d="M 4.60,26.00 L 7.43,18.80 L 9.64,21.68 L 12.58,18.00 L 15.10,26.00 Z" fill="#FFFCF7" fill-opacity="0.85"/>
+  <path d="M 4.60,26.00 L 7.43,18.80 L 9.64,21.68 L 12.58,18.00 L 15.10,26.00 Z" fill="#FFFFFF" fill-opacity="0.85"/>
   <!-- mid -->
   <rect x="8.2" y="5.0" width="17.0" height="17.0" rx="4.8" fill="url(#lkhm-cg)"/>
   <!-- small front (the compressed result) -->
   <rect x="15.0" y="2.0" width="14.2" height="14.2" rx="4.0" fill="#1C1916"/>
-  <circle cx="24.0" cy="6.15" r="1.25" fill="#E8A892"/>
-  <path d="M 17.40,14.00 L 19.78,8.24 L 21.62,10.54 L 24.09,7.60 L 26.20,14.00 Z" fill="#F6F1EA"/>
+  <circle cx="24.0" cy="6.15" r="1.25" fill="#93C5FD"/>
+  <path d="M 17.40,14.00 L 19.78,8.24 L 21.62,10.54 L 24.09,7.60 L 26.20,14.00 Z" fill="#F8FAFC"/>
 </g>
   <g fill="#1C1916" transform="translate(80.000,44.690) scale(0.036000,-0.036000)">
   <path transform="translate(0.0,0)" d="M233 702V0H62V702Z"/>
