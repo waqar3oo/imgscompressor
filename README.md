@@ -1,6 +1,8 @@
-# Free Image Compressor
+# ImgsCompressor
 
-Live site: https://waqar3oo.github.io/freeimagecompressor/
+Live site: https://waqar3oo.github.io/imgscompressor/
+
+imgscompressor.com is coming soon. Until that domain is connected, use the GitHub Pages address above.
 
 A tiny, private photo-and-signature compressor. You set a maximum size in KB; it gives you a JPEG that stays under that limit. Everything runs in your browser. Your photo never leaves your device.
 
@@ -8,7 +10,7 @@ Photo ya signature ko exact KB tak chhota karein. File aapke device se bahar nah
 
 ## How to use
 
-1. Open the [live site](https://waqar3oo.github.io/freeimagecompressor/) or `index.html` in Chrome, Edge, Firefox, or Safari (double-click the file, or drag it into a tab). You do not need the internet after the page is open.
+1. Open the [live site](https://waqar3oo.github.io/imgscompressor/) or `index.html` in Chrome, Edge, Firefox, or Safari (double-click the file, or drag it into a tab). You do not need the internet after the page is open.
 2. Drop a photo, or click the box to choose one (JPG, PNG, WebP; HEIC only if your browser can open it).
 3. Choose **Photo** or **Signature**.
 4. Type a max size in KB, or tap a preset:
@@ -21,13 +23,13 @@ Photo ya signature ko exact KB tak chhota karein. File aapke device se bahar nah
 7. The original photo appears under the drop area as soon as you choose it (name, size, and pixels). Nothing is compressed yet. Press **Compress** (or **Convert** in Signature mode). A progress bar runs while the file is read and while the JPEG is built.
 8. Check the before/after preview and the output size, then click **Download**. Change the target or options and press the button again to make a new file.
 
-If you drop a JPEG that is already under the target, and you have not asked for a pixel resize or signature cleanup, Free Image Compressor keeps the original bytes and says so. It will not give you a larger JPEG than the one you started with, except when converting a PNG or WebP to JPEG, in which case the file may grow but still stays under the target.
+If you drop a JPEG that is already under the target, and you have not asked for a pixel resize or signature cleanup, ImgsCompressor keeps the original bytes and says so. It will not give you a larger JPEG than the one you started with, except when converting a PNG or WebP to JPEG, in which case the file may grow but still stays under the target.
 
 By default, 1 KB = 1000 bytes. That is the safer choice for government and exam portals, which sometimes count 1000 and sometimes 1024. A file under the 1000-byte definition is also under the 1024-byte definition. Uncheck the box only if a form clearly uses 1024.
 
 ## Deploy for free in about two minutes
 
-You only need to upload `index.html` (this README is optional). This repository is already published at https://waqar3oo.github.io/freeimagecompressor/.
+You only need to upload `index.html` (this README is optional). This repository is already published at https://waqar3oo.github.io/imgscompressor/. The custom domain imgscompressor.com is coming soon and is not connected yet.
 
 ### GitHub Pages
 
