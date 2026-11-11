@@ -363,6 +363,108 @@
       box-shadow: 0 1px 4px rgba(28, 31, 30, 0.18);
     }
     .view.is-split .replace { top: auto; bottom: 36px; }
+    .back-batch {
+      position: absolute;
+      z-index: 6;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      appearance: none;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 12px;
+      min-height: 32px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .batch {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      background: var(--paper);
+    }
+    .batch[hidden] { display: none !important; }
+    .batch-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .text-btn {
+      appearance: none;
+      background: var(--bg);
+      color: var(--ink);
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      min-height: 32px;
+      padding: 4px 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+    .batch-note {
+      margin: 0;
+      flex: 1 1 160px;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .batch-list {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+    }
+    .batch-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      min-width: 0;
+    }
+    .batch-open {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1 1 auto;
+      min-width: 0;
+      text-align: left;
+      padding: 0;
+      color: inherit;
+    }
+    .batch-thumb {
+      width: 44px;
+      height: 44px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: var(--chip);
+      flex-shrink: 0;
+    }
+    .batch-copy { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+    .batch-name { display: flex; min-width: 0; max-width: 100%; }
+    .batch-sizes, .batch-status { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .batch-status.is-done { color: var(--ok); font-weight: 700; }
+    .batch-status.is-fail { color: var(--warn); font-weight: 700; }
+    .batch-actions { display: flex; gap: 4px; flex-shrink: 0; }
+    .icon-btn {
+      appearance: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--ink);
+      font-weight: 700;
+      line-height: 1;
+    }
+    .icon-btn[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
     .l2-controls {
       display: flex;
       flex-direction: column;
@@ -682,6 +784,15 @@
               <span class="cap cap-right" id="metaRight"></span>
             </div>
             <button type="button" class="replace" id="replacePhoto">Replace photo</button>
+            <button type="button" class="back-batch" id="backBatch" hidden>Back to list</button>
+          </div>
+          <div class="batch" id="batch" hidden>
+            <div class="batch-bar">
+              <button type="button" class="text-btn" id="addMore">Add more</button>
+              <button type="button" class="text-btn" id="clearAll">Clear all</button>
+              <p class="batch-note" id="batchNote" hidden></p>
+            </div>
+            <div class="batch-list" id="batchList"></div>
           </div>
         </div>
         <aside class="l2-controls">
@@ -731,6 +842,7 @@
               </div>
             </div>
             <a class="btn btn-download" id="download" aria-disabled="true">Download</a>
+            <button type="button" class="btn btn-download" id="zipBtn" hidden>Download all (ZIP)</button>
             <div>
               <button type="button" class="more" id="moreBtn" aria-expanded="false" aria-controls="morePanel">
                 <span class="chev" aria-hidden="true"></span> More options
@@ -759,7 +871,7 @@
       </section>
     </div>
   </div>
-  <input id="file" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" aria-label="Choose an image">
+  <input id="file" class="visually-hidden" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" aria-label="Choose images">
 
   <script>
   (function () {
@@ -806,6 +918,13 @@
       metaLeft: document.getElementById("metaLeft"),
       metaRight: document.getElementById("metaRight"),
       download: document.getElementById("download"),
+      zipBtn: document.getElementById("zipBtn"),
+      batch: document.getElementById("batch"),
+      batchList: document.getElementById("batchList"),
+      batchNote: document.getElementById("batchNote"),
+      addMore: document.getElementById("addMore"),
+      clearAll: document.getElementById("clearAll"),
+      backBatch: document.getElementById("backBatch"),
       modePhoto: document.getElementById("mode-photo"),
       modeSignature: document.getElementById("mode-signature"),
       compressBtn: document.getElementById("compressBtn"),
@@ -832,7 +951,11 @@
       hasResult: false,
       resultSignature: "",
       downloaded: false,
-      split: 50
+      split: 50,
+      items: [],
+      nextId: 1,
+      replacing: false,
+      inspecting: false
     };
 
     var lastResult = null;
@@ -892,13 +1015,31 @@
       ].join("|");
     }
 
+    function isBatch() {
+      return state.items.length >= 2;
+    }
+
+    function updateZipButton() {
+      var ready = isBatch() && !state.running && state.items.some(function (item) { return item.status === "done" && item.result; });
+      els.zipBtn.hidden = !isBatch();
+      els.zipBtn.disabled = !ready;
+      els.download.hidden = isBatch() && !state.inspecting;
+    }
+
     function updateCompressButton() {
+      if (isBatch()) {
+        els.compressBtn.disabled = !(targetIsValid() && !state.running);
+        els.compressBtn.textContent = state.running ? "Compressing…" : ("Compress all (" + state.items.length + ")");
+        updateZipButton();
+        return;
+      }
       var ready = !!(state.file && state.loaded && targetIsValid() && !state.running);
       els.compressBtn.disabled = !ready;
       if (state.running && state.loaded) els.compressBtn.textContent = "Compressing…";
       else if (state.running) els.compressBtn.textContent = "Reading…";
       else if (state.hasResult) els.compressBtn.textContent = "Compress again";
       else els.compressBtn.textContent = "Compress";
+      updateZipButton();
     }
 
     function noteIfStale() {
@@ -916,8 +1057,10 @@
     }
 
     function updateSteps() {
-      var uploaded = !!(state.file && state.loaded);
-      var compressed = !!state.hasResult;
+      var uploaded = isBatch() ? state.items.length > 0 : !!(state.file && state.loaded);
+      var compressed = isBatch()
+        ? state.items.length > 0 && state.items.every(function (item) { return item.status === "done" || item.status === "fail"; })
+        : !!state.hasResult;
       var downloaded = !!state.downloaded && compressed;
       paintStep(els.step1, 1, "Upload", uploaded ? "done" : "current");
       paintStep(els.step2, 2, "Choose KB", compressed ? "done" : (uploaded ? "current" : "todo"));
@@ -1577,6 +1720,380 @@
       }
     }
 
+    var CRC_TABLE = (function () {
+      var table = new Uint32Array(256);
+      for (var n = 0; n < 256; n++) {
+        var c = n;
+        for (var k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+        table[n] = c >>> 0;
+      }
+      return table;
+    })();
+
+    function crc32(bytes) {
+      var c = 0xffffffff;
+      for (var i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 255] ^ (c >>> 8);
+      return (c ^ 0xffffffff) >>> 0;
+    }
+
+    function concatBytes(parts) {
+      var len = 0;
+      parts.forEach(function (p) { len += p.length; });
+      var out = new Uint8Array(len);
+      var o = 0;
+      parts.forEach(function (p) { out.set(p, o); o += p.length; });
+      return out;
+    }
+
+    function u16(n) { return new Uint8Array([n & 255, (n >> 8) & 255]); }
+    function u32(n) { return new Uint8Array([n & 255, (n >> 8) & 255, (n >> 16) & 255, (n >> 24) & 255]); }
+
+    function buildZip(entries) {
+      var locals = [];
+      var centrals = [];
+      var offset = 0;
+      entries.forEach(function (entry) {
+        var nameBytes = new TextEncoder().encode(entry.name);
+        var data = entry.data;
+        var crc = crc32(data);
+        var local = concatBytes([
+          u32(0x04034b50), u16(20), u16(0), u16(0), u16(0), u16(0),
+          u32(crc), u32(data.length), u32(data.length),
+          u16(nameBytes.length), u16(0), nameBytes, data
+        ]);
+        locals.push(local);
+        centrals.push(concatBytes([
+          u32(0x02014b50), u16(20), u16(20), u16(0), u16(0), u16(0), u16(0),
+          u32(crc), u32(data.length), u32(data.length),
+          u16(nameBytes.length), u16(0), u16(0), u16(0), u16(0), u32(0),
+          u32(offset), nameBytes
+        ]));
+        offset += local.length;
+      });
+      var central = concatBytes(centrals);
+      var end = concatBytes([
+        u32(0x06054b50), u16(0), u16(0),
+        u16(entries.length), u16(entries.length),
+        u32(central.length), u32(offset), u16(0)
+      ]);
+      return new Blob([concatBytes(locals), central, end], { type: "application/zip" });
+    }
+
+    function makeItem(file) {
+      return {
+        id: state.nextId++,
+        file: file,
+        status: "waiting",
+        result: null,
+        thumbUrl: URL.createObjectURL(file),
+        outName: "",
+        error: ""
+      };
+    }
+
+    function revokeItem(item) {
+      if (!item) return;
+      if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
+      if (item.dlUrl) URL.revokeObjectURL(item.dlUrl);
+    }
+
+    function statusLabel(status) {
+      if (status === "compressing") return "Compressing";
+      if (status === "done") return "Done under limit";
+      if (status === "fail") return "Could not reach target";
+      return "Waiting";
+    }
+
+    function outputBaseName(file, targetKb, used) {
+      var parts = splitFileName(file.name || "photo");
+      var base = (parts.base || "photo").replace(/[^\w.\-]+/g, "-").replace(/^-+|-+$/g, "") || "photo";
+      var stem = base + "-" + targetKb + "kb";
+      var name = stem + ".jpg";
+      var n = 2;
+      while (used[name]) {
+        name = stem + "-" + n + ".jpg";
+        n++;
+      }
+      used[name] = true;
+      return name;
+    }
+
+    function renderBatch() {
+      els.batchList.textContent = "";
+      state.items.forEach(function (item) {
+        var row = document.createElement("div");
+        row.className = "batch-item";
+        var open = document.createElement("button");
+        open.type = "button";
+        open.className = "batch-open";
+        var thumb = document.createElement("img");
+        thumb.className = "batch-thumb";
+        thumb.alt = "";
+        thumb.src = item.thumbUrl;
+        var copy = document.createElement("span");
+        copy.className = "batch-copy";
+        var name = document.createElement("span");
+        name.className = "batch-name";
+        var parts = splitFileName(item.file.name || "photo");
+        var base = document.createElement("span");
+        base.className = "cap-base";
+        base.textContent = parts.base;
+        var ext = document.createElement("span");
+        ext.className = "cap-ext";
+        ext.textContent = parts.ext;
+        name.title = item.file.name || "photo";
+        name.appendChild(base);
+        name.appendChild(ext);
+        var sizes = document.createElement("span");
+        sizes.className = "batch-sizes";
+        var outSize = item.result ? formatKB(item.result.blob.size) : "—";
+        sizes.textContent = formatBytes(item.file.size) + " → " + outSize;
+        var status = document.createElement("span");
+        status.className = "batch-status" + (item.status === "done" ? " is-done" : item.status === "fail" ? " is-fail" : "");
+        status.textContent = statusLabel(item.status);
+        copy.appendChild(name);
+        copy.appendChild(sizes);
+        copy.appendChild(status);
+        open.appendChild(thumb);
+        open.appendChild(copy);
+        open.addEventListener("click", function () { inspectItem(item.id); });
+        var actions = document.createElement("div");
+        actions.className = "batch-actions";
+        var dl = document.createElement("a");
+        dl.className = "icon-btn";
+        dl.textContent = "↓";
+        dl.setAttribute("aria-label", "Download");
+        if (item.result && item.dlUrl) {
+          dl.href = item.dlUrl;
+          dl.download = item.outName || "photo.jpg";
+        } else {
+          dl.setAttribute("aria-disabled", "true");
+          dl.href = "#";
+        }
+        dl.addEventListener("click", function (e) {
+          if (!item.result) e.preventDefault();
+        });
+        var rm = document.createElement("button");
+        rm.type = "button";
+        rm.className = "icon-btn";
+        rm.textContent = "×";
+        rm.setAttribute("aria-label", "Remove");
+        rm.disabled = state.running;
+        rm.addEventListener("click", function () { removeItem(item.id); });
+        actions.appendChild(dl);
+        actions.appendChild(rm);
+        row.appendChild(open);
+        row.appendChild(actions);
+        els.batchList.appendChild(row);
+      });
+    }
+
+    function showBatchList() {
+      state.inspecting = false;
+      els.drop.hidden = true;
+      els.view.hidden = true;
+      els.batch.hidden = false;
+      els.backBatch.hidden = true;
+      els.replacePhoto.hidden = false;
+      renderBatch();
+      updateCompressButton();
+      updateSteps();
+    }
+
+    function setBatchNote(msg) {
+      els.batchNote.hidden = !msg;
+      els.batchNote.textContent = msg || "";
+    }
+
+    function inspectItem(id) {
+      var item = state.items.filter(function (it) { return it.id === id; })[0];
+      if (!item) return;
+      state.inspecting = true;
+      state.file = item.file;
+      state.loaded = true;
+      clearCompressed();
+      showOriginalShell(item.file);
+      state.dims = { w: item.result ? item.result.originalWidth : 0, h: item.result ? item.result.originalHeight : 0 };
+      if (item.result) {
+        state.dims = { w: item.result.originalWidth, h: item.result.originalHeight };
+        showResult(item.file, item.result);
+      } else {
+        refreshMeta();
+        els.view.dataset.loaded = "1";
+      }
+      els.batch.hidden = true;
+      els.backBatch.hidden = false;
+      els.replacePhoto.hidden = true;
+      updateZipButton();
+    }
+
+    function removeItem(id) {
+      if (state.running) return;
+      var next = [];
+      state.items.forEach(function (item) {
+        if (item.id === id) revokeItem(item);
+        else next.push(item);
+      });
+      state.items = next;
+      if (state.items.length >= 2) showBatchList();
+      else if (state.items.length === 1) {
+        setBatchNote("");
+        acceptFile(state.items[0].file);
+      } else {
+        clearAllItems();
+      }
+    }
+
+    function clearAllItems() {
+      state.runId++;
+      state.items.forEach(revokeItem);
+      state.items = [];
+      state.inspecting = false;
+      state.file = null;
+      state.loaded = false;
+      state.dims = null;
+      state.running = false;
+      els.batch.hidden = true;
+      els.backBatch.hidden = true;
+      els.replacePhoto.hidden = false;
+      els.view.hidden = true;
+      els.drop.hidden = false;
+      setBatchNote("");
+      clearCompressed();
+      setProgress(0, "", "");
+      setStatus("");
+      updateCompressButton();
+      updateSteps();
+    }
+
+    function acceptFiles(fileList) {
+      var incoming = [];
+      for (var i = 0; i < fileList.length; i++) incoming.push(fileList[i]);
+      var supported = incoming.filter(isSupportedType);
+      if (!supported.length) {
+        setStatus("Please choose a photo (JPG, PNG, WebP, or HEIC).", "error");
+        return;
+      }
+      var replacing = state.replacing;
+      var adding = state.adding;
+      state.replacing = false;
+      state.adding = false;
+      if (replacing) {
+        state.items.forEach(revokeItem);
+        state.items = [];
+      }
+      if (!adding && !isBatch() && supported.length === 1) {
+        acceptFile(supported[0]);
+        return;
+      }
+      if (replacing && supported.length === 1) {
+        acceptFile(supported[0]);
+        return;
+      }
+      var note = "";
+      var room = 20 - state.items.length;
+      if (supported.length > room) {
+        supported = supported.slice(0, Math.max(0, room));
+        note = "Only 20 images at a time. Extra files were not added.";
+      }
+      if (!supported.length) {
+        setBatchNote("Only 20 images at a time.");
+        return;
+      }
+      state.runId++;
+      state.running = false;
+      supported.forEach(function (file) { state.items.push(makeItem(file)); });
+      setBatchNote(note);
+      if (state.items.length === 1) {
+        acceptFile(state.items[0].file);
+        return;
+      }
+      state.file = state.items[0].file;
+      state.loaded = true;
+      showBatchList();
+      setProgress(0, "", "");
+      setStatus("");
+    }
+
+    async function blobBytes(blob) {
+      var buf = await blob.arrayBuffer();
+      return new Uint8Array(buf);
+    }
+
+    async function downloadZip() {
+      var ready = state.items.filter(function (item) { return item.status === "done" && item.result; });
+      if (!ready.length) return;
+      var entries = [];
+      for (var i = 0; i < ready.length; i++) {
+        entries.push({ name: ready[i].outName, data: await blobBytes(ready[i].result.blob) });
+      }
+      var zip = buildZip(entries);
+      var url = URL.createObjectURL(zip);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "images-" + (Number(els.targetKb.value) || 30) + "kb.zip";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+      state.downloaded = true;
+      updateSteps();
+    }
+
+    async function runBatch() {
+      if (!isBatch() || state.running || !targetIsValid()) return;
+      var runId = ++state.runId;
+      state.running = true;
+      state.inspecting = false;
+      state.downloaded = false;
+      showBatchList();
+      updateCompressButton();
+      var options;
+      try { options = readOptions(); } catch (err) {
+        state.running = false;
+        setStatus(err.message, "error");
+        updateCompressButton();
+        return;
+      }
+      var used = {};
+      var total = state.items.length;
+      for (var i = 0; i < state.items.length; i++) {
+        if (runId !== state.runId) return;
+        var item = state.items[i];
+        item.status = "compressing";
+        if (item.dlUrl) URL.revokeObjectURL(item.dlUrl);
+        item.dlUrl = "";
+        item.result = null;
+        renderBatch();
+        setProgress(Math.round((i / total) * 100), i + " of " + total, "compress");
+        els.progressPct.textContent = (i) + "/" + total;
+        try {
+          var result = await processFile(item.file, options);
+          if (runId !== state.runId) return;
+          item.result = result;
+          item.status = "done";
+          item.outName = outputBaseName(item.file, options.targetKb, used);
+          item.dlUrl = URL.createObjectURL(result.blob);
+        } catch (err) {
+          if (runId !== state.runId) return;
+          item.status = "fail";
+          item.error = err && err.message ? err.message : "";
+        }
+        setProgress(Math.round(((i + 1) / total) * 100), (i + 1) + " of " + total, "compress");
+        els.progressPct.textContent = (i + 1) + "/" + total;
+        renderBatch();
+      }
+      if (runId !== state.runId) return;
+      var ok = state.items.filter(function (item) { return item.status === "done"; }).length;
+      setProgress(100, "", "compress");
+      els.progressPct.textContent = ok + "/" + total;
+      setStatus(ok + " of " + total);
+      state.running = false;
+      state.hasResult = ok > 0;
+      updateCompressButton();
+      updateSteps();
+    }
+
     function acceptFile(file) {
       if (!file) return;
       if (!isSupportedType(file)) {
@@ -1584,11 +2101,18 @@
         return;
       }
       state.runId++;
+      state.items.forEach(revokeItem);
+      state.items = [makeItem(file)];
+      state.inspecting = false;
       state.file = file;
       state.loaded = false;
       state.dims = null;
       state.running = true;
       state.downloaded = false;
+      els.batch.hidden = true;
+      els.backBatch.hidden = true;
+      els.replacePhoto.hidden = false;
+      setBatchNote("");
       clearCompressed();
       showOriginalShell(file);
       updateCompressButton();
@@ -1676,7 +2200,8 @@
       });
     });
     els.file.addEventListener("change", function () {
-      if (els.file.files && els.file.files[0]) acceptFile(els.file.files[0]);
+      if (els.file.files && els.file.files.length) acceptFiles(els.file.files);
+      els.file.value = "";
     });
     els.drop.addEventListener("click", function () { els.file.click(); });
     els.drop.addEventListener("keydown", function (e) {
@@ -1687,8 +2212,17 @@
     });
     els.replacePhoto.addEventListener("click", function (e) {
       e.stopPropagation();
+      state.replacing = true;
       els.file.click();
     });
+    els.addMore.addEventListener("click", function () {
+      state.replacing = false;
+      state.adding = true;
+      els.file.click();
+    });
+    els.clearAll.addEventListener("click", function () { clearAllItems(); });
+    els.backBatch.addEventListener("click", function () { showBatchList(); });
+    els.zipBtn.addEventListener("click", function () { downloadZip(); });
     els.stage.addEventListener("dragover", function (e) {
       e.preventDefault();
       els.drop.classList.add("is-drag");
@@ -1699,10 +2233,13 @@
     els.stage.addEventListener("drop", function (e) {
       e.preventDefault();
       els.drop.classList.remove("is-drag");
-      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-      if (f) acceptFile(f);
+      var files = e.dataTransfer && e.dataTransfer.files;
+      if (files && files.length) acceptFiles(files);
     });
-    els.compressBtn.addEventListener("click", function () { runProcess(); });
+    els.compressBtn.addEventListener("click", function () {
+      if (isBatch()) runBatch();
+      else runProcess();
+    });
     els.download.addEventListener("click", function () {
       if (els.download.getAttribute("aria-disabled") === "true") return;
       state.downloaded = true;
