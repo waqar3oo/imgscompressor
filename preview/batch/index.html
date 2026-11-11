@@ -235,6 +235,22 @@
     }
     .drop strong { font-size: 1.15rem; letter-spacing: -0.02em; }
     .drop span { color: var(--muted); font-size: 0.92rem; }
+    .drop-actions { margin-top: 14px; }
+    .batch-upload {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent-2);
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+    .batch-upload svg { display: block; flex-shrink: 0; }
+    html[data-batch="off"] .batch-only { display: none !important; }
     .app, .app * { touch-action: pan-y; }
     .view { position: absolute; inset: 0; }
     .view.is-split { touch-action: none; cursor: ew-resize; user-select: none; -webkit-user-select: none; }
@@ -347,23 +363,27 @@
       flex-shrink: 0;
       white-space: nowrap;
     }
-    .replace {
+    .preview-actions {
       position: absolute;
-      z-index: 5;
+      z-index: 6;
       top: 12px;
       right: 12px;
+      display: flex;
+      gap: 8px;
+    }
+    .view.is-split .preview-actions { top: auto; bottom: 40px; }
+    .replace, .clear-all {
       appearance: none;
       background: rgba(255, 255, 255, 0.92);
       color: var(--ink);
       border: 1px solid rgba(255, 255, 255, 0.8);
       border-radius: 999px;
       padding: 4px 10px;
-      min-height: 28px;
+      min-height: 32px;
       font-size: 12px;
       font-weight: 700;
       box-shadow: 0 1px 4px rgba(28, 31, 30, 0.18);
     }
-    .view.is-split .replace { top: auto; bottom: 36px; }
     .back-batch {
       position: absolute;
       z-index: 6;
@@ -765,6 +785,15 @@
           <div class="drop" id="drop" tabindex="0">
             <strong>Drop a photo here, or click to choose</strong>
             <span>JPG, PNG, WebP, HEIC</span>
+            <div class="drop-actions">
+              <button type="button" class="batch-upload batch-only" id="batchUpload">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <rect x="2" y="5" width="9" height="9" rx="1.6"/>
+                  <rect x="6" y="2.5" width="9" height="9" rx="1.6" fill="var(--paper)"/>
+                </svg>
+                Batch upload
+              </button>
+            </div>
           </div>
           <div class="view" id="view" hidden data-loaded="0" data-split="50">
             <img id="imgAfter" alt="Compressed JPEG" hidden>
@@ -784,10 +813,13 @@
               <span class="cap" id="metaLeft"></span>
               <span class="cap cap-right" id="metaRight"></span>
             </div>
-            <button type="button" class="replace" id="replacePhoto">Replace photo</button>
+            <div class="preview-actions">
+              <button type="button" class="clear-all" id="clearSingle">Clear all</button>
+              <button type="button" class="replace" id="replacePhoto">Replace photo</button>
+            </div>
             <button type="button" class="back-batch" id="backBatch" hidden>Back to list</button>
           </div>
-          <div class="batch" id="batch" hidden>
+          <div class="batch batch-only" id="batch" hidden>
             <div class="batch-bar">
               <button type="button" class="text-btn" id="addMore">Add more</button>
               <button type="button" class="text-btn" id="clearAll">Clear all</button>
@@ -843,7 +875,7 @@
               </div>
             </div>
             <a class="btn btn-download" id="download" aria-disabled="true">Download</a>
-            <button type="button" class="btn btn-download" id="zipBtn" hidden>Download all (ZIP)</button>
+            <button type="button" class="btn btn-download batch-only" id="zipBtn" hidden>Download all (ZIP)</button>
             <div>
               <button type="button" class="more" id="moreBtn" aria-expanded="false" aria-controls="morePanel">
                 <span class="chev" aria-hidden="true"></span> More options
@@ -872,11 +904,16 @@
       </section>
     </div>
   </div>
-  <input id="file" class="visually-hidden" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" aria-label="Choose images">
+  <input id="file" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" aria-label="Choose an image">
+  <input id="batchFile" class="visually-hidden batch-only" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" aria-label="Choose images">
 
   <script>
   (function () {
     "use strict";
+
+    /* Feature switches. Batch can be turned off later without removing the section below. */
+    var FEATURES = { batch: true, batchMax: 20 };
+    document.documentElement.setAttribute("data-batch", FEATURES.batch ? "on" : "off");
 
     var UNIT_SI = 1000;
     var UNIT_IEC = 1024;
@@ -893,6 +930,9 @@
     var els = {
       drop: document.getElementById("drop"),
       file: document.getElementById("file"),
+      batchFile: document.getElementById("batchFile"),
+      batchUpload: document.getElementById("batchUpload"),
+      clearSingle: document.getElementById("clearSingle"),
       stage: document.getElementById("stage"),
       view: document.getElementById("view"),
       targetKb: document.getElementById("targetKb"),
@@ -1721,6 +1761,7 @@
       }
     }
 
+    /* ---- Batch compression (gated by FEATURES.batch) ---- */
     var CRC_TABLE = (function () {
       var table = new Uint32Array(256);
       for (var n = 0; n < 256; n++) {
@@ -1968,6 +2009,12 @@
     }
 
     function acceptFiles(fileList) {
+      if (!FEATURES.batch) {
+        var firstOnly = fileList && fileList[0];
+        if (firstOnly && isSupportedType(firstOnly)) acceptFile(firstOnly);
+        else setStatus("Please choose a photo (JPG, PNG, WebP, or HEIC).", "error");
+        return;
+      }
       var incoming = [];
       for (var i = 0; i < fileList.length; i++) incoming.push(fileList[i]);
       var supported = incoming.filter(isSupportedType);
@@ -1992,13 +2039,13 @@
         return;
       }
       var note = "";
-      var room = 20 - state.items.length;
+      var room = FEATURES.batchMax - state.items.length;
       if (supported.length > room) {
         supported = supported.slice(0, Math.max(0, room));
-        note = "Only 20 images at a time. Extra files were not added.";
+        note = "Only " + FEATURES.batchMax + " images at a time. Extra files were not added.";
       }
       if (!supported.length) {
-        setBatchNote("Only 20 images at a time.");
+        setBatchNote("Only " + FEATURES.batchMax + " images at a time.");
         return;
       }
       state.runId++;
@@ -2042,7 +2089,7 @@
     }
 
     async function runBatch() {
-      if (!isBatch() || state.running || !targetIsValid()) return;
+      if (!FEATURES.batch || !isBatch() || state.running || !targetIsValid()) return;
       var runId = ++state.runId;
       state.running = true;
       state.inspecting = false;
@@ -2130,7 +2177,7 @@
     }
     function onPointerDown(e) {
       if (!state.hasResult) return;
-      if (e.target.closest && e.target.closest("#replacePhoto")) return;
+      if (e.target.closest && e.target.closest("#replacePhoto, #clearSingle, #backBatch, .preview-actions")) return;
       if (e.pointerType === "mouse" && e.button !== 0) return;
       if (dragging && e.pointerId === activePointer) return;
       dragging = true;
@@ -2204,6 +2251,27 @@
       if (els.file.files && els.file.files.length) acceptFiles(els.file.files);
       els.file.value = "";
     });
+    els.batchFile.addEventListener("change", function () {
+      if (!FEATURES.batch) return;
+      if (els.batchFile.files && els.batchFile.files.length) {
+        state.replacing = false;
+        state.adding = true;
+        acceptFiles(els.batchFile.files);
+      }
+      els.batchFile.value = "";
+    });
+    els.batchUpload.addEventListener("click", function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      if (!FEATURES.batch) return;
+      state.replacing = false;
+      state.adding = true;
+      els.batchFile.click();
+    });
+    els.clearSingle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      clearAllItems();
+    });
     els.drop.addEventListener("click", function () { els.file.click(); });
     els.drop.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") {
@@ -2217,9 +2285,10 @@
       els.file.click();
     });
     els.addMore.addEventListener("click", function () {
+      if (!FEATURES.batch) return;
       state.replacing = false;
       state.adding = true;
-      els.file.click();
+      els.batchFile.click();
     });
     els.clearAll.addEventListener("click", function () { clearAllItems(); });
     els.backBatch.addEventListener("click", function () { showBatchList(); });
