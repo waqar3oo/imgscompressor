@@ -239,42 +239,51 @@
     }
     .drop strong { font-size: 1.15rem; letter-spacing: -0.02em; }
     .drop span { color: var(--muted); font-size: 0.92rem; }
+    .app, .app * { touch-action: pan-y; }
     .view { position: absolute; inset: 0; }
+    .view.is-split { touch-action: none; cursor: ew-resize; user-select: none; -webkit-user-select: none; }
+    .view.is-split, .view.is-split * { touch-action: none; }
     .view img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
+      max-width: none;
       object-fit: contain;
-      object-position: center;
+      object-position: center center;
       background: transparent;
       user-select: none;
       -webkit-user-drag: none;
+      pointer-events: none;
     }
     .handle {
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 0;
-      z-index: 3;
-      pointer-events: none;
+      width: 44px;
+      transform: translateX(-50%);
+      z-index: 4;
+      touch-action: none;
+      pointer-events: auto;
     }
     .handle .bar {
       position: absolute;
       top: 0;
       bottom: 0;
-      left: -1.5px;
+      left: 50%;
       width: 3px;
+      margin-left: -1.5px;
       background: #fff;
       box-shadow: 0 0 0 1px rgba(28, 31, 30, 0.15);
+      pointer-events: none;
     }
     .handle .knob {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 36px;
-      height: 36px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: #fff;
       border: 3px solid var(--accent-2);
@@ -283,6 +292,7 @@
       place-items: center;
       color: var(--ink);
       padding: 0;
+      touch-action: none;
       pointer-events: auto;
       cursor: ew-resize;
     }
@@ -583,6 +593,7 @@
       .l2-body { padding: 0 10px 16px; }
       .l2-card { display: flex; flex-direction: column; overflow: visible; }
       .stage { min-height: 280px; height: 46vh; }
+      .view img { width: 100%; height: 100%; object-fit: contain; object-position: center center; }
       .l2-controls { border-left: 0; border-top: 1px solid var(--line); overflow: visible; }
       .rail-bottom { margin-top: 0; }
     }
@@ -911,13 +922,44 @@
       els.line2.classList.toggle("done", compressed);
     }
 
+    function renderedImageBox() {
+      var viewRect = els.view.getBoundingClientRect();
+      var img = els.imgBefore;
+      var nw = img.naturalWidth;
+      var nh = img.naturalHeight;
+      if (!nw || !nh || !viewRect.width || !viewRect.height) {
+        return {
+          left: viewRect.left,
+          top: viewRect.top,
+          width: viewRect.width,
+          height: viewRect.height,
+          viewLeft: viewRect.left,
+          viewWidth: viewRect.width
+        };
+      }
+      var scale = Math.min(viewRect.width / nw, viewRect.height / nh);
+      var w = nw * scale;
+      var h = nh * scale;
+      return {
+        left: viewRect.left + (viewRect.width - w) / 2,
+        top: viewRect.top + (viewRect.height - h) / 2,
+        width: w,
+        height: h,
+        viewLeft: viewRect.left,
+        viewWidth: viewRect.width
+      };
+    }
+
     function setSplit(pct) {
       pct = Math.max(0, Math.min(100, pct));
       state.split = pct;
       var shown = Math.round(pct * 10) / 10;
       els.view.dataset.split = String(shown);
-      els.imgBefore.style.clipPath = "inset(0 " + (100 - pct) + "% 0 0)";
-      els.handle.style.left = pct + "%";
+      var box = renderedImageBox();
+      var localX = (box.left - box.viewLeft) + (pct / 100) * box.width;
+      var rightClip = Math.max(0, box.viewWidth - localX);
+      els.imgBefore.style.clipPath = "inset(0 " + rightClip + "px 0 0)";
+      els.handle.style.left = localX + "px";
       els.knob.setAttribute("aria-valuenow", String(Math.round(pct)));
     }
 
@@ -1523,25 +1565,58 @@
     }
 
     var dragging = false;
+    var activePointer = null;
     function splitFromEvent(e) {
-      var rect = els.view.getBoundingClientRect();
-      if (!rect.width) return;
-      setSplit(((e.clientX - rect.left) / rect.width) * 100);
+      var box = renderedImageBox();
+      if (!box.width) return;
+      setSplit(((e.clientX - box.left) / box.width) * 100);
     }
-    els.view.addEventListener("pointerdown", function (e) {
+    function onPointerDown(e) {
       if (!state.hasResult) return;
       if (e.target.closest && e.target.closest("#replacePhoto")) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      if (dragging && e.pointerId === activePointer) return;
       dragging = true;
-      els.view.setPointerCapture(e.pointerId);
+      activePointer = e.pointerId;
+      els.view.classList.add("is-dragging");
+      try { els.view.setPointerCapture(e.pointerId); } catch (err) {}
+      if (e.cancelable) e.preventDefault();
       splitFromEvent(e);
-    });
-    els.view.addEventListener("pointermove", function (e) {
-      if (!dragging) return;
+    }
+    function onPointerMove(e) {
+      if (!dragging || e.pointerId !== activePointer) return;
+      if (e.cancelable) e.preventDefault();
       splitFromEvent(e);
+    }
+    function onPointerUp(e) {
+      if (activePointer !== null && e.pointerId !== activePointer) return;
+      dragging = false;
+      activePointer = null;
+      els.view.classList.remove("is-dragging");
+      if (els.view.hasPointerCapture && e.pointerId !== undefined && els.view.hasPointerCapture(e.pointerId)) {
+        try { els.view.releasePointerCapture(e.pointerId); } catch (err) {}
+      }
+    }
+    els.view.addEventListener("pointerdown", onPointerDown, { passive: false });
+    els.handle.addEventListener("pointerdown", onPointerDown, { passive: false });
+    els.view.addEventListener("pointermove", onPointerMove, { passive: false });
+    els.handle.addEventListener("pointermove", onPointerMove, { passive: false });
+    els.view.addEventListener("pointerup", onPointerUp, { passive: false });
+    els.handle.addEventListener("pointerup", onPointerUp, { passive: false });
+    els.view.addEventListener("pointercancel", onPointerUp, { passive: false });
+    els.handle.addEventListener("pointercancel", onPointerUp, { passive: false });
+    window.addEventListener("resize", function () {
+      if (state.hasResult) setSplit(state.split);
     });
-    function endDrag() { dragging = false; }
-    els.view.addEventListener("pointerup", endDrag);
-    els.view.addEventListener("pointercancel", endDrag);
+    window.addEventListener("orientationchange", function () {
+      if (state.hasResult) setSplit(state.split);
+    });
+    els.imgBefore.addEventListener("load", function () {
+      if (state.hasResult) setSplit(state.split);
+    });
+    els.imgAfter.addEventListener("load", function () {
+      if (state.hasResult) setSplit(state.split);
+    });
     els.knob.addEventListener("keydown", function (e) {
       if (!state.hasResult) return;
       var step = e.shiftKey ? 10 : 2;
