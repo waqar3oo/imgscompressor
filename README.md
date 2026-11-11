@@ -18,7 +18,8 @@ Photo ya signature ko exact KB tak chhota karein. File aapke device se bahar nah
    - Also 10, 50, 100, and 200 KB
 5. Optional: set an exact width × height in pixels. For photos, leave **Fit with white background** on to letterbox (no crop or stretch). Turn it off to fill the box by centre-cropping.
 6. In Signature mode you can **Clean background** (light areas become white) and convert to **Grayscale**.
-7. Check the before/after preview and the output size, then click **Download**.
+7. The original photo appears under the drop area as soon as you choose it (name, size, and pixels). Nothing is compressed yet. Press **Compress** (or **Convert** in Signature mode). A progress bar runs while the file is read and while the JPEG is built.
+8. Check the before/after preview and the output size, then click **Download**. Change the target or options and press the button again to make a new file.
 
 If you drop a JPEG that is already under the target, and you have not asked for a pixel resize or signature cleanup, Free Image Compressor keeps the original bytes and says so. It will not give you a larger JPEG than the one you started with, except when converting a PNG or WebP to JPEG, in which case the file may grow but still stays under the target.
 

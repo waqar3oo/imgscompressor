@@ -45,18 +45,18 @@
     .wrap {
       max-width: 760px;
       margin: 0 auto;
-      padding: 28px 18px 48px;
+      padding: 18px 18px 48px;
     }
-    header { margin-bottom: 22px; }
+    header { margin-bottom: 12px; }
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
     .mark {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
       background: var(--accent);
       color: #fff;
@@ -68,32 +68,32 @@
       flex-shrink: 0;
     }
     h1 {
-      font-size: 1.55rem;
+      font-size: 1.4rem;
       letter-spacing: -0.03em;
       margin: 0;
       font-weight: 750;
     }
-    .lede { margin: 0 0 4px; font-size: 1.02rem; }
+    .lede { margin: 0 0 2px; font-size: 0.98rem; }
     .hint {
       margin: 0;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
     }
     .card {
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 18px;
-      margin-bottom: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
     }
     .drop {
       position: relative;
       border: 1.5px dashed #cbbfa8;
       border-radius: 12px;
       background: #faf6ed;
-      min-height: 148px;
-      padding: 22px 16px;
+      min-height: 112px;
+      padding: 18px 16px;
       text-align: center;
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
@@ -101,6 +101,10 @@
     .drop:hover, .drop:focus-within, .drop.is-drag {
       border-color: var(--accent);
       background: var(--accent-soft);
+    }
+    .drop.is-compact {
+      min-height: 0;
+      padding: 10px 14px;
     }
     .drop input[type="file"] {
       position: absolute;
@@ -111,7 +115,9 @@
       cursor: pointer;
     }
     .drop strong { display: block; font-size: 1.02rem; margin-bottom: 4px; }
+    .drop.is-compact strong { font-size: 0.92rem; margin-bottom: 0; }
     .drop span { color: var(--muted); font-size: 0.88rem; }
+    .drop.is-compact span { display: none; }
     .row {
       display: flex;
       flex-wrap: wrap;
@@ -127,7 +133,7 @@
       color: var(--muted);
     }
     .modes { display: flex; gap: 6px; }
-    .modes button, .chips button, button.btn, .toggle {
+    .modes button, .chips button, button.btn, .toggle, .text-btn {
       font: inherit;
       color: var(--ink);
       background: #fff;
@@ -166,7 +172,7 @@
       width: 100%;
       color: var(--ink);
     }
-    input[type="number"]:focus, input[type="text"]:focus, button:focus-visible, .drop:focus-within {
+    input[type="number"]:focus, input[type="text"]:focus, button:focus-visible, .drop:focus-within, a.btn:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 2px;
     }
@@ -196,29 +202,87 @@
       font-size: 0.85rem;
       color: var(--muted);
     }
+    .compress-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .compress-row .field {
+      flex: 0 0 132px;
+      min-width: 0;
+      max-width: 150px;
+    }
+    .compress-btn {
+      flex: 1;
+      min-height: 52px;
+      font-size: 1.08rem;
+      letter-spacing: 0.01em;
+      box-shadow: 0 1px 2px rgba(13, 92, 77, 0.22);
+    }
+    button.btn:disabled, .btn[aria-disabled="true"] {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+      box-shadow: none;
+    }
+    .feedback { margin-top: 10px; }
+    .progress[hidden] { display: none !important; }
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      min-height: 1.2em;
+    }
+    .progress { margin-top: 6px; }
     .status {
       margin: 0;
-      min-height: 1.3em;
-      font-size: 0.95rem;
+      min-height: 1.2em;
+      font-size: 0.92rem;
+      flex: 1;
     }
     .status.is-error {
       background: var(--danger-bg);
       color: var(--danger);
-      padding: 10px 12px;
+      padding: 8px 10px;
       border-radius: 10px;
     }
     .status.is-busy { color: var(--accent); font-weight: 650; }
+    .progress-pct {
+      font-weight: 750;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .progress-pct[hidden] { display: none !important; }
+    .progress-track {
+      height: 12px;
+      background: #efe8d8;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), #1a8a72);
+      border-radius: inherit;
+    }
+    .compare { margin-top: 12px; }
+    .compare[hidden] { display: none !important; }
     .previews {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 14px;
     }
     .prev {
       background: #f6f1e6;
       border: 1px solid var(--line);
       border-radius: 12px;
       overflow: hidden;
+      min-width: 0;
     }
     .prev figcaption {
       padding: 6px 10px;
@@ -232,9 +296,9 @@
     .prev .frame {
       display: grid;
       place-items: center;
-      min-height: 180px;
-      max-height: 280px;
-      padding: 10px;
+      min-height: 140px;
+      max-height: 200px;
+      padding: 8px;
       background:
         linear-gradient(45deg, #eee6d6 25%, transparent 25%),
         linear-gradient(-45deg, #eee6d6 25%, transparent 25%),
@@ -245,19 +309,31 @@
     }
     .prev img {
       max-width: 100%;
-      max-height: 260px;
+      max-height: 180px;
       object-fit: contain;
       background: #fff;
     }
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px 16px;
-      margin: 0 0 14px;
-      font-size: 0.95rem;
+    .prev img[hidden] { display: none !important; }
+    .after-empty {
+      margin: 0;
+      padding: 8px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.88rem;
     }
-    .stats dt { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 650; }
-    .stats dd { margin: 0; font-weight: 650; }
+    .after-empty[hidden] { display: none !important; }
+    .meta { padding: 8px 10px 10px; }
+    .meta p { margin: 0 0 2px; font-size: 0.88rem; word-break: break-word; }
+    .orig-name { font-weight: 700; }
+    .orig-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .text-btn {
+      padding: 4px 10px;
+      min-height: 32px;
+      font-size: 0.82rem;
+      font-weight: 650;
+    }
+    .text-btn:hover { border-color: var(--accent); color: var(--accent-2); }
+    .stats-line { font-weight: 650; }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -272,15 +348,14 @@
       border-radius: 999px;
     }
     .btn:hover { background: var(--accent-2) !important; }
-    .btn[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
+    #download { margin-top: 8px; width: 100%; }
+    #download[hidden] { display: none !important; }
     .warn {
-      margin: 10px 0 0;
-      font-size: 0.88rem;
+      margin: 8px 0 0;
+      font-size: 0.82rem;
       color: #7a4a00;
     }
-    .warn.is-keep {
-      color: var(--accent);
-    }
+    .warn.is-keep { color: var(--accent); }
     footer {
       margin-top: 8px;
       text-align: center;
@@ -288,14 +363,37 @@
       font-size: 0.9rem;
     }
     footer p { margin: 4px 0; }
-    #result { display: none; }
-    #result.is-on { display: block; }
     .sig-only { display: none; }
     body[data-mode="signature"] .sig-only { display: block; }
     @media (max-width: 560px) {
-      .previews, .stats { grid-template-columns: 1fr; }
-      .wrap { padding: 18px 14px 36px; }
-      h1 { font-size: 1.35rem; }
+      .wrap { padding: 8px 10px 28px; }
+      header { margin-bottom: 6px; }
+      .brand { margin-bottom: 2px; gap: 8px; }
+      .mark { width: 28px; height: 28px; font-size: 11px; }
+      h1 { font-size: 1.12rem; }
+      .lede { font-size: 0.84rem; }
+      .hint { font-size: 0.76rem; line-height: 1.3; }
+      .card { padding: 10px; margin-bottom: 8px; }
+      .drop { min-height: 72px; padding: 10px 12px; }
+      .drop.is-compact { padding: 6px 10px; }
+      .compress-row { margin-top: 8px; gap: 8px; }
+      .compress-row .field { flex-basis: 104px; }
+      .compress-btn { min-height: 44px; font-size: 1rem; padding: 8px 12px; }
+      .feedback { margin-top: 6px; }
+      .status { font-size: 0.8rem; }
+      .progress { margin-top: 4px; }
+      .progress-track { height: 8px; }
+      .compare { margin-top: 8px; }
+      .previews { grid-template-columns: 1fr; gap: 8px; }
+      .prev figcaption { padding: 3px 8px; }
+      .prev .frame { min-height: 72px; max-height: 84px; padding: 4px; }
+      .prev img { max-height: 76px; }
+      .meta { padding: 6px 8px 8px; }
+      .meta p { font-size: 0.78rem; line-height: 1.3; margin-bottom: 1px; }
+      .orig-actions { margin-top: 4px; gap: 4px; }
+      .text-btn { min-height: 28px; padding: 2px 8px; font-size: 0.76rem; }
+      #download { min-height: 40px; margin-top: 6px; padding: 8px 12px; }
+      .warn { font-size: 0.75rem; line-height: 1.3; margin-top: 4px; }
     }
   </style>
 </head>
@@ -310,11 +408,62 @@
       <p class="hint">Photo ya signature ko exact KB tak chhota karein. File aapke device se bahar nahi jati.</p>
     </header>
 
-    <section class="card">
+    <section class="card" id="stage">
       <div class="drop" id="drop" tabindex="0">
         <input id="file" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" aria-label="Choose an image">
-        <strong>Drop a photo here, or click to choose</strong>
-        <span>JPG, PNG, or WebP. HEIC if your browser supports it. &middot; Photo yahan drop karein ya click karein.</span>
+        <strong id="dropTitle">Drop a photo here, or click to choose</strong>
+        <span id="dropHint">JPG, PNG, or WebP. HEIC if your browser supports it. &middot; Photo yahan drop karein ya click karein.</span>
+      </div>
+
+      <div class="compress-row">
+        <div class="field">
+          <label for="targetKb">Max size (KB)</label>
+          <input id="targetKb" type="number" min="1" max="20000" step="1" value="30">
+        </div>
+        <button type="button" class="btn compress-btn" id="compressBtn" disabled>Compress</button>
+      </div>
+
+      <div class="feedback" id="feedback">
+        <div class="progress-top">
+          <p class="status" id="status" role="status"></p>
+          <span class="progress-pct" id="progressPct" hidden>0%</span>
+        </div>
+        <div class="progress" id="progress" hidden data-pct="0" data-steps="0" data-phase="">
+          <div class="progress-track" id="progressTrack" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Work progress">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare" id="compare" hidden data-loaded="0">
+        <div class="previews">
+          <figure class="prev" id="originalPreview">
+            <figcaption>Original</figcaption>
+            <div class="frame"><img id="imgBefore" alt="Original image"></div>
+            <div class="meta">
+              <p id="origName" class="orig-name"></p>
+              <p class="stats-line" id="statOrig">—</p>
+              <p id="statOrigPx">—</p>
+              <div class="orig-actions">
+                <button type="button" class="text-btn" id="changeImage">Change image</button>
+                <button type="button" class="text-btn" id="removeImage">Remove</button>
+              </div>
+            </div>
+          </figure>
+          <figure class="prev" id="result" data-ready="0" data-ok="0">
+            <figcaption>Compressed</figcaption>
+            <div class="frame">
+              <img id="imgAfter" alt="Compressed JPEG" hidden>
+              <p class="after-empty" id="afterEmpty">Press Compress and the JPEG will show here.</p>
+            </div>
+            <div class="meta">
+              <p class="stats-line" id="statOut">—</p>
+              <p id="statOutPx">—</p>
+              <a class="btn" id="download" hidden>Download</a>
+              <p class="warn" id="resizeNote" hidden></p>
+            </div>
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -326,10 +475,6 @@
             <button type="button" id="mode-photo" aria-pressed="true">Photo</button>
             <button type="button" id="mode-signature" aria-pressed="false">Signature</button>
           </div>
-        </div>
-        <div class="field" style="flex:0 0 140px;max-width:160px">
-          <label for="targetKb">Max size (KB)</label>
-          <input id="targetKb" type="number" min="1" max="20000" step="1" value="30">
         </div>
       </div>
 
@@ -373,29 +518,6 @@
       <p class="note">Portals sometimes count 1 KB as 1000 bytes and sometimes as 1024. The default is 1000, so the file stays under either definition. &middot; Default 1000 bytes hai, taake form dono hisaab se accept kare.</p>
     </section>
 
-    <p class="status" id="status" role="status"></p>
-
-    <section class="card" id="result">
-      <div class="previews">
-        <figure class="prev">
-          <figcaption>Original</figcaption>
-          <div class="frame"><img id="imgBefore" alt="Original image"></div>
-        </figure>
-        <figure class="prev">
-          <figcaption>Compressed</figcaption>
-          <div class="frame"><img id="imgAfter" alt="Compressed JPEG"></div>
-        </figure>
-      </div>
-      <dl class="stats">
-        <div><dt>Original size</dt><dd id="statOrig">—</dd></div>
-        <div><dt>Output size</dt><dd id="statOut">—</dd></div>
-        <div><dt>Original pixels</dt><dd id="statOrigPx">—</dd></div>
-        <div><dt>Output pixels</dt><dd id="statOutPx">—</dd></div>
-      </dl>
-      <a class="btn" id="download" download="photo.jpg">Download</a>
-      <p class="warn" id="resizeNote" hidden></p>
-    </section>
-
     <footer>
       <p>Your photo never leaves your device.</p>
       <p>Photo aapke device se bahar nahi jati.</p>
@@ -420,6 +542,7 @@
 
     var els = {
       drop: document.getElementById("drop"),
+      dropTitle: document.getElementById("dropTitle"),
       file: document.getElementById("file"),
       targetKb: document.getElementById("targetKb"),
       presets: document.getElementById("presets"),
@@ -430,9 +553,16 @@
       grayscale: document.getElementById("grayscale"),
       siUnits: document.getElementById("siUnits"),
       status: document.getElementById("status"),
+      progress: document.getElementById("progress"),
+      progressFill: document.getElementById("progressFill"),
+      progressTrack: document.getElementById("progressTrack"),
+      progressPct: document.getElementById("progressPct"),
+      compare: document.getElementById("compare"),
+      origName: document.getElementById("origName"),
       result: document.getElementById("result"),
       imgBefore: document.getElementById("imgBefore"),
       imgAfter: document.getElementById("imgAfter"),
+      afterEmpty: document.getElementById("afterEmpty"),
       statOrig: document.getElementById("statOrig"),
       statOut: document.getElementById("statOut"),
       statOrigPx: document.getElementById("statOrigPx"),
@@ -440,16 +570,24 @@
       download: document.getElementById("download"),
       resizeNote: document.getElementById("resizeNote"),
       modePhoto: document.getElementById("mode-photo"),
-      modeSignature: document.getElementById("mode-signature")
+      modeSignature: document.getElementById("mode-signature"),
+      compressBtn: document.getElementById("compressBtn"),
+      changeImage: document.getElementById("changeImage"),
+      removeImage: document.getElementById("removeImage")
     };
 
     var state = {
       mode: "photo",
       file: null,
+      loaded: false,
+      dims: null,
       beforeUrl: null,
       afterUrl: null,
       running: false,
-      runId: 0
+      runId: 0,
+      readId: 0,
+      hasResult: false,
+      resultSignature: ""
     };
 
     var lastResult = null;
@@ -466,9 +604,92 @@
       return s + " KB";
     }
 
+    function formatBytes(bytes) {
+      var u = unit();
+      var kb = bytes / u;
+      if (kb >= 1000) {
+        var mb = kb / 1000;
+        var n = mb >= 10 ? (Math.round(mb * 10) / 10) : (Math.round(mb * 100) / 100);
+        return (n % 1 === 0 ? String(n) : String(n)) + " MB";
+      }
+      return formatKB(bytes, u);
+    }
+
     function setStatus(msg, kind) {
       els.status.textContent = msg || "";
       els.status.className = "status" + (kind ? " is-" + kind : "");
+    }
+
+    function setProgress(pct, label, phase) {
+      pct = Math.max(0, Math.min(100, Math.round(pct)));
+      els.progress.hidden = false;
+      els.progressPct.hidden = false;
+      els.progress.dataset.pct = String(pct);
+      els.progress.dataset.phase = phase || "";
+      els.progressFill.style.width = pct + "%";
+      els.progressTrack.setAttribute("aria-valuenow", String(pct));
+      els.progressPct.textContent = pct + "%";
+      if (label) setStatus(label, pct < 100 ? "busy" : "");
+    }
+
+    function hideProgress() {
+      els.progress.hidden = true;
+      els.progressPct.hidden = true;
+      els.progress.dataset.pct = "0";
+      els.progress.dataset.phase = "";
+      els.progressFill.style.width = "0%";
+      els.progressTrack.setAttribute("aria-valuenow", "0");
+      els.progressPct.textContent = "0%";
+    }
+
+    function actionLabel() {
+      return state.mode === "signature" ? "Convert" : "Compress";
+    }
+
+    function targetIsValid() {
+      var kb = Number(els.targetKb.value);
+      return Number.isFinite(kb) && kb >= 1 && kb <= 20000;
+    }
+
+    function optionsSignature() {
+      return [
+        els.targetKb.value,
+        els.pixW.value,
+        els.pixH.value,
+        els.fitWhite.checked ? "1" : "0",
+        els.cleanBg.checked ? "1" : "0",
+        els.grayscale.checked ? "1" : "0",
+        els.siUnits.checked ? "1" : "0",
+        state.mode
+      ].join("|");
+    }
+
+    function updateCompressButton() {
+      var ready = !!(state.file && state.loaded && targetIsValid() && !state.running);
+      els.compressBtn.disabled = !ready;
+      els.compressBtn.textContent = state.running
+        ? (state.loaded ? "Working…" : "Reading…")
+        : actionLabel();
+      if (!state.hasResult) {
+        els.afterEmpty.textContent = "Press " + actionLabel() + " and the JPEG will show here.";
+      }
+    }
+
+    function noteIfStale() {
+      if (!state.hasResult || state.running) return;
+      if (optionsSignature() !== state.resultSignature) {
+        hideProgress();
+        setStatus("Settings changed. Press " + actionLabel() + " to update.");
+      }
+    }
+
+    function refreshOriginalMeta() {
+      if (!state.file) return;
+      els.origName.textContent = state.file.name || "photo";
+      els.statOrig.textContent = formatBytes(state.file.size) + " (" + state.file.size.toLocaleString() + " bytes)";
+      els.statOrigPx.textContent = state.dims
+        ? (state.dims.w + " × " + state.dims.h)
+        : "Reading dimensions…";
     }
 
     function setMode(mode) {
@@ -477,7 +698,8 @@
       els.modePhoto.setAttribute("aria-pressed", state.mode === "photo" ? "true" : "false");
       els.modeSignature.setAttribute("aria-pressed", state.mode === "signature" ? "true" : "false");
       renderPresets();
-      if (state.file) scheduleProcess();
+      updateCompressButton();
+      noteIfStale();
     }
 
     function renderPresets() {
@@ -493,7 +715,8 @@
         btn.addEventListener("click", function () {
           els.targetKb.value = String(p.kb);
           syncPresetPressed();
-          if (state.file) scheduleProcess();
+          updateCompressButton();
+          noteIfStale();
         });
         els.presets.appendChild(btn);
       });
@@ -689,10 +912,11 @@
       return made.canvas;
     }
 
-    async function bestJpegAtSize(canvas, targetBytes) {
+    async function bestJpegAtSize(canvas, targetBytes, onStep) {
       var candidates = [];
       async function tryQ(q) {
         q = Math.round(q * 1000) / 1000;
+        if (onStep) onStep("Compressing… / Compress ho raha hai…");
         var blob = await canvasToBlob(canvas, q);
         candidates.push({ q: q, blob: blob });
         return blob;
@@ -717,12 +941,12 @@
       return { blob: fit[0].blob, quality: fit[0].q, fits: true };
     }
 
-    async function compressToTarget(sourceCanvas, targetBytes) {
+    async function compressToTarget(sourceCanvas, targetBytes, onStep) {
       var canvas = sourceCanvas;
       var requested = { w: sourceCanvas.width, h: sourceCanvas.height };
       var safety = 80;
       while (safety--) {
-        var attempt = await bestJpegAtSize(canvas, targetBytes);
+        var attempt = await bestJpegAtSize(canvas, targetBytes, onStep);
         if (attempt.fits) {
           return {
             blob: attempt.blob,
@@ -736,6 +960,7 @@
         if (canvas.width <= 1 && canvas.height <= 1) {
           throw new Error("Could not get this image under " + formatKB(targetBytes) + ". Try a simpler image or a larger target. / Is size tak compress nahi ho saka.");
         }
+        if (onStep) onStep("Resizing to fit the limit…");
         var n = nextSize(canvas.width, canvas.height);
         canvas = resizeCanvas(canvas, n.w, n.h);
       }
@@ -782,13 +1007,14 @@
       return new Blob([file], { type: "image/jpeg" });
     }
 
-    async function processFile(file, options) {
+    async function processFile(file, options, onStep) {
       options = options || readOptions();
       var img = await loadImageFile(file);
       var src = sourceSize(img);
       var keepOriginal = isJpegFile(file) && file.size <= options.targetBytes && !needsReencode(options);
       if (keepOriginal) {
         closeImage(img);
+        if (onStep) onStep("Already under the target.");
         var kept = {
           blob: jpegBlobFromFile(file),
           width: src.w,
@@ -807,13 +1033,14 @@
         window.UnderKB.lastResult = kept;
         return kept;
       }
+      if (onStep) onStep("Preparing image…");
       var canvas = drawSource(img, options);
       closeImage(img);
       var cap = options.targetBytes;
       if (file.size <= options.targetBytes && !mayExceedOriginal(file)) {
         cap = Math.min(options.targetBytes, file.size);
       }
-      var result = await compressToTarget(canvas, cap);
+      var result = await compressToTarget(canvas, cap, onStep);
       if (result.blob.size > options.targetBytes) {
         throw new Error("The file is still over the limit. Please try a larger target.");
       }
@@ -831,15 +1058,40 @@
       return result;
     }
 
-    function showResult(file, result) {
-      revoke(state.beforeUrl);
+    function clearCompressed() {
       revoke(state.afterUrl);
-      state.beforeUrl = URL.createObjectURL(file);
+      state.afterUrl = null;
+      state.hasResult = false;
+      state.resultSignature = "";
+      els.imgAfter.removeAttribute("src");
+      els.imgAfter.hidden = true;
+      els.afterEmpty.hidden = false;
+      els.statOut.textContent = "—";
+      els.statOutPx.textContent = "—";
+      els.download.hidden = true;
+      els.download.removeAttribute("href");
+      els.download.setAttribute("aria-disabled", "true");
+      els.download.textContent = "Download";
+      els.resizeNote.hidden = true;
+      els.resizeNote.textContent = "";
+      els.resizeNote.classList.remove("is-keep");
+      els.result.classList.remove("is-on");
+      els.result.dataset.ready = "0";
+      els.result.dataset.ok = "0";
+      delete els.result.dataset.bytes;
+      delete els.result.dataset.width;
+      delete els.result.dataset.height;
+      delete els.result.dataset.kept;
+    }
+
+    function showResult(file, result) {
+      revoke(state.afterUrl);
       state.afterUrl = URL.createObjectURL(result.blob);
-      els.imgBefore.src = state.beforeUrl;
+      els.imgAfter.hidden = false;
       els.imgAfter.src = state.afterUrl;
-      els.statOrig.textContent = formatKB(result.originalBytes) + "  (" + result.originalBytes.toLocaleString() + " bytes)";
-      els.statOut.textContent = formatKB(result.blob.size) + "  (" + result.blob.size.toLocaleString() + " bytes)";
+      els.afterEmpty.hidden = true;
+      els.statOrig.textContent = formatBytes(result.originalBytes) + " (" + result.originalBytes.toLocaleString() + " bytes)";
+      els.statOut.textContent = formatKB(result.blob.size) + " (" + result.blob.size.toLocaleString() + " bytes)";
       els.statOrigPx.textContent = result.originalWidth + " × " + result.originalHeight;
       els.statOutPx.textContent = result.width + " × " + result.height;
       var stem = result.options.mode === "signature" ? "signature" : "photo";
@@ -847,6 +1099,7 @@
       var name = stem + "_" + kbFloor + "KB.jpg";
       els.download.download = name;
       els.download.href = state.afterUrl;
+      els.download.hidden = false;
       els.download.setAttribute("aria-disabled", "false");
       els.download.textContent = "Download " + name;
       els.resizeNote.classList.remove("is-keep");
@@ -869,35 +1122,131 @@
       els.result.dataset.height = String(result.height);
       els.result.dataset.kept = result.keptOriginal ? "1" : "0";
       els.result.dataset.ok = "1";
+      state.hasResult = true;
+      state.resultSignature = optionsSignature();
     }
 
-    var timer = null;
-    function scheduleProcess() {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(runProcess, 40);
+    function revealResult() {
+      var rect = els.result.getBoundingClientRect();
+      var fullyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+      if (fullyVisible) return;
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      els.result.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+    }
+
+    function readFileWithProgress(file, readId) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        setProgress(0, "Reading image… / Image padh raha hai…", "read");
+        els.compare.dataset.readEvents = "0";
+        els.compare.dataset.readPct = "0";
+        reader.onprogress = function (e) {
+          if (readId !== state.readId) return;
+          var pct = 0;
+          if (e.lengthComputable && e.total > 0) pct = (e.loaded / e.total) * 100;
+          else if (file.size > 0) pct = (e.loaded / file.size) * 100;
+          pct = Math.min(99, pct);
+          els.compare.dataset.readEvents = String(Number(els.compare.dataset.readEvents || 0) + 1);
+          els.compare.dataset.readPct = String(Math.round(pct));
+          setProgress(pct, "Reading image… / Image padh raha hai…", "read");
+        };
+        reader.onload = function () {
+          if (readId !== state.readId) return;
+          els.compare.dataset.readPct = "100";
+          setProgress(100, "Image ready", "read");
+          resolve(reader.result);
+        };
+        reader.onerror = function () {
+          reject(new Error("Could not read this file. / File nahi padhi."));
+        };
+        reader.readAsArrayBuffer(file);
+      });
     }
 
     async function runProcess() {
-      if (!state.file) return;
+      if (!state.file || !state.loaded || state.running || !targetIsValid()) return;
       var runId = ++state.runId;
       state.running = true;
+      els.progress.dataset.steps = "0";
+      updateCompressButton();
       els.result.dataset.ready = "0";
       els.result.dataset.ok = "0";
-      setStatus("Compressing… / Compress ho raha hai…", "busy");
+      var pct = 2;
+      setProgress(pct, "Compressing… / Compress ho raha hai…", "compress");
+      function onStep(msg) {
+        if (runId !== state.runId) return;
+        var steps = Number(els.progress.dataset.steps || 0) + 1;
+        els.progress.dataset.steps = String(steps);
+        var remain = 97 - pct;
+        pct = Math.min(97, pct + Math.max(1, remain * 0.12));
+        setProgress(pct, msg || "Compressing… / Compress ho raha hai…", "compress");
+      }
       try {
         var options = readOptions();
-        var result = await processFile(state.file, options);
+        var result = await processFile(state.file, options, onStep);
         if (runId !== state.runId) return;
         showResult(state.file, result);
-        setStatus("");
+        setProgress(100, "Done. Ready to download.", "compress");
+        revealResult();
       } catch (err) {
         if (runId !== state.runId) return;
         lastResult = null;
         window.UnderKB.lastResult = null;
-        els.result.classList.remove("is-on");
+        clearCompressed();
+        hideProgress();
         setStatus(err && err.message ? err.message : "Something went wrong.", "error");
       } finally {
-        if (runId === state.runId) state.running = false;
+        if (runId === state.runId) {
+          state.running = false;
+          updateCompressButton();
+        }
+      }
+    }
+
+    function showOriginalShell(file) {
+      revoke(state.beforeUrl);
+      state.beforeUrl = URL.createObjectURL(file);
+      els.imgBefore.src = state.beforeUrl;
+      els.compare.hidden = false;
+      els.compare.dataset.loaded = "0";
+      els.drop.classList.add("is-compact");
+      els.dropTitle.textContent = "Drop a different photo to replace";
+      refreshOriginalMeta();
+    }
+
+    async function readAndPreview(file, readId) {
+      try {
+        await readFileWithProgress(file, readId);
+        if (readId !== state.readId) return;
+        var img = await loadImageFile(file);
+        if (readId !== state.readId) {
+          closeImage(img);
+          return;
+        }
+        var src = sourceSize(img);
+        closeImage(img);
+        state.loaded = true;
+        state.dims = src;
+        els.compare.dataset.loaded = "1";
+        refreshOriginalMeta();
+        els.imgBefore.alt = "Original image, " + src.w + " by " + src.h + " pixels";
+        hideProgress();
+        setStatus("Ready. Press " + actionLabel() + ".");
+      } catch (err) {
+        if (readId !== state.readId) return;
+        state.file = null;
+        state.loaded = false;
+        state.dims = null;
+        els.compare.hidden = true;
+        els.drop.classList.remove("is-compact");
+        els.dropTitle.textContent = "Drop a photo here, or click to choose";
+        hideProgress();
+        setStatus(err && err.message ? err.message : "Could not read this image.", "error");
+      } finally {
+        if (readId === state.readId) {
+          state.running = false;
+          updateCompressButton();
+        }
       }
     }
 
@@ -907,20 +1256,51 @@
         setStatus("Please choose a photo (JPG, PNG, WebP, or HEIC). / Photo file chunein.", "error");
         return;
       }
+      state.runId++;
       state.file = file;
-      els.result.classList.remove("is-on");
-      scheduleProcess();
+      state.loaded = false;
+      state.dims = null;
+      state.running = true;
+      clearCompressed();
+      showOriginalShell(file);
+      updateCompressButton();
+      var readId = ++state.readId;
+      readAndPreview(file, readId);
+    }
+
+    function removeImage() {
+      state.readId++;
+      state.runId++;
+      state.file = null;
+      state.loaded = false;
+      state.dims = null;
+      state.running = false;
+      els.file.value = "";
+      revoke(state.beforeUrl);
+      state.beforeUrl = null;
+      els.imgBefore.removeAttribute("src");
+      els.compare.hidden = true;
+      els.compare.dataset.loaded = "0";
+      els.drop.classList.remove("is-compact");
+      els.dropTitle.textContent = "Drop a photo here, or click to choose";
+      clearCompressed();
+      hideProgress();
+      setStatus("");
+      updateCompressButton();
     }
 
     els.modePhoto.addEventListener("click", function () { setMode("photo"); });
     els.modeSignature.addEventListener("click", function () { setMode("signature"); });
     els.targetKb.addEventListener("input", function () {
       syncPresetPressed();
-      if (state.file) scheduleProcess();
+      updateCompressButton();
+      noteIfStale();
     });
     ["pixW", "pixH", "fitWhite", "cleanBg", "grayscale", "siUnits"].forEach(function (id) {
       document.getElementById(id).addEventListener("change", function () {
-        if (state.file) scheduleProcess();
+        if (id === "siUnits") refreshOriginalMeta();
+        updateCompressButton();
+        noteIfStale();
       });
     });
     els.file.addEventListener("change", function () {
@@ -939,8 +1319,18 @@
       var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
       if (f) acceptFile(f);
     });
+    els.compressBtn.addEventListener("click", function () {
+      runProcess();
+    });
+    els.changeImage.addEventListener("click", function () {
+      els.file.click();
+    });
+    els.removeImage.addEventListener("click", function () {
+      removeImage();
+    });
 
     renderPresets();
+    updateCompressButton();
 
     window.UnderKB = {
       processFile: processFile,
