@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="512" height="512" role="img" aria-label="ImgsCompressor icon H">
+  <defs>
+    <linearGradient id="h-cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#BFDBFE"/><stop offset="100%" stop-color="#93C5FD"/></linearGradient>
+    <linearGradient id="hm-cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1E40AF"/></linearGradient>
+  </defs>
+  <!-- large back -->
+  <rect x="2.0" y="9.0" width="21.0" height="21.0" rx="6.0" fill="url(#h-cg)"/>
+  <path d="M 4.60,26.00 L 7.43,18.80 L 9.64,21.68 L 12.58,18.00 L 15.10,26.00 Z" fill="#FFFFFF" fill-opacity="0.85"/>
+  <!-- mid -->
+  <rect x="8.2" y="5.0" width="17.0" height="17.0" rx="4.8" fill="url(#hm-cg)"/>
+  <!-- small front (the compressed result) -->
+  <rect x="15.0" y="2.0" width="14.2" height="14.2" rx="4.0" fill="#1C1916"/>
+  <circle cx="24.0" cy="6.15" r="1.25" fill="#93C5FD"/>
+  <path d="M 17.40,14.00 L 19.78,8.24 L 21.62,10.54 L 24.09,7.60 L 26.20,14.00 Z" fill="#F8FAFC"/>
+
+</svg>
