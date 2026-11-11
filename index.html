@@ -322,7 +322,30 @@
       font-size: 12px;
       font-weight: 500;
     }
-    .compare-meta span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cap {
+      display: flex;
+      align-items: baseline;
+      max-width: 48%;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .cap-right {
+      flex-shrink: 0;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .cap-base {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+      flex-shrink: 1;
+    }
+    .cap-ext,
+    .cap-rest {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
     .replace {
       position: absolute;
       z-index: 5;
@@ -655,8 +678,8 @@
               </button>
             </div>
             <div class="compare-meta">
-              <span id="metaLeft"></span>
-              <span id="metaRight"></span>
+              <span class="cap" id="metaLeft"></span>
+              <span class="cap cap-right" id="metaRight"></span>
             </div>
             <button type="button" class="replace" id="replacePhoto">Replace photo</button>
           </div>
@@ -1310,14 +1333,44 @@
       return result;
     }
 
+    function splitFileName(name) {
+      var n = name || "photo";
+      var slash = Math.max(n.lastIndexOf("/"), n.lastIndexOf("\\"));
+      if (slash >= 0) n = n.slice(slash + 1);
+      var dot = n.lastIndexOf(".");
+      if (dot <= 0) return { base: n, ext: "" };
+      return { base: n.slice(0, dot), ext: n.slice(dot) };
+    }
+
+    function setFileCaption(el, fileName, sizeText, dimsText) {
+      var full = fileName || "photo";
+      var parts = splitFileName(full);
+      var tail = " · " + sizeText + (dimsText ? " · " + dimsText : "");
+      el.title = full;
+      el.textContent = "";
+      var base = document.createElement("span");
+      base.className = "cap-base";
+      base.textContent = parts.base;
+      var ext = document.createElement("span");
+      ext.className = "cap-ext";
+      ext.textContent = parts.ext;
+      var rest = document.createElement("span");
+      rest.className = "cap-rest";
+      rest.textContent = tail;
+      el.appendChild(base);
+      el.appendChild(ext);
+      el.appendChild(rest);
+    }
+
     function refreshMeta() {
       if (!state.file) {
         els.metaLeft.textContent = "";
+        els.metaLeft.removeAttribute("title");
         els.metaRight.textContent = "";
         return;
       }
       var dims = state.dims ? (state.dims.w + "×" + state.dims.h) : "…";
-      els.metaLeft.textContent = (state.file.name || "photo") + " · " + formatBytes(state.file.size) + " · " + dims;
+      setFileCaption(els.metaLeft, state.file.name || "photo", formatBytes(state.file.size), dims);
     }
 
     function clearCompressed() {
@@ -1375,9 +1428,7 @@
       setSplit(state.split || 50);
       var kbText = formatKB(result.blob.size);
       els.metaRight.textContent = kbText + " · " + result.width + "×" + result.height;
-      if (state.dims) {
-        els.metaLeft.textContent = (file.name || "photo") + " · " + formatBytes(result.originalBytes) + " · " + result.originalWidth + "×" + result.originalHeight;
-      }
+      setFileCaption(els.metaLeft, file.name || "photo", formatBytes(result.originalBytes), result.originalWidth + "×" + result.originalHeight);
       els.result.hidden = false;
       els.result.classList.remove("is-warn");
       els.result.classList.add("is-on");
