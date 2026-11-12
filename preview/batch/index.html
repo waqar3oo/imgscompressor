@@ -2147,6 +2147,7 @@
       clearCompressed();
       setProgress(0, "", "");
       setStatus("");
+      renderBatch();
       updateCompressButton();
       updateSteps();
     }
@@ -2191,16 +2192,22 @@
         setBatchNote("Only " + FEATURES.batchMax + " images at a time.");
         return;
       }
-      state.runId++;
-      state.running = false;
+      var wasRunning = state.running;
       supported.forEach(function (file) { state.items.push(makeItem(file)); });
       setBatchNote(note);
       if (state.items.length === 1) {
         acceptFile(state.items[0].file);
         return;
       }
+      state.panel = "batch";
       state.file = state.items[0].file;
       state.loaded = true;
+      if (wasRunning) {
+        renderBatch();
+        updateCompressButton();
+        updateSteps();
+        return;
+      }
       showBatchList();
       setProgress(0, "", "");
       setStatus("");
@@ -2231,6 +2238,25 @@
       updateSteps();
     }
 
+    function settleBatchUi() {
+      state.items.forEach(function (item) {
+        if (item.status !== "compressing") return;
+        item.status = item.result ? "done" : (item.settings ? "fail" : "new");
+      });
+      var doneNow = state.items.filter(function (item) { return item.status === "done" && item.result; }).length;
+      var all = state.items.length;
+      if (all) {
+        setProgress(Math.round((doneNow / all) * 100), "", "compress");
+        els.progressPct.textContent = doneNow + "/" + all;
+        setStatus(doneNow + " of " + all);
+      }
+      state.hasResult = doneNow > 0;
+      state.running = false;
+      updateCompressButton();
+      updateSteps();
+      if (state.panel === "batch" && !state.inspecting) renderBatch();
+    }
+
     async function runBatch(onlyNew) {
       if (!FEATURES.batch || !inBatchPanel() || state.running || !targetIsValid()) return;
       var queue = state.items.filter(function (item) {
@@ -2241,60 +2267,73 @@
       state.running = true;
       state.inspecting = false;
       state.downloaded = false;
-      showBatchList();
-      updateCompressButton();
       var options;
-      try { options = readOptions(); } catch (err) {
-        state.running = false;
-        setStatus(err.message, "error");
-        updateCompressButton();
-        return;
-      }
       var key = settingsKey();
-      var used = {};
-      state.items.forEach(function (item) {
-        if (queue.indexOf(item) === -1 && item.outName) used[item.outName] = true;
-      });
-      var total = queue.length;
-      for (var i = 0; i < queue.length; i++) {
-        if (runId !== state.runId) return;
-        var item = queue[i];
-        item.status = "compressing";
-        if (item.dlUrl) URL.revokeObjectURL(item.dlUrl);
-        item.dlUrl = "";
-        item.result = null;
-        renderBatch();
-        setProgress(Math.round((i / total) * 100), i + " of " + total, "compress");
-        els.progressPct.textContent = (i) + "/" + total;
-        try {
-          var result = await processFile(item.file, options);
-          if (runId !== state.runId) return;
-          item.result = result;
-          item.status = "done";
-          item.settings = key;
-          item.stamp = (item.stamp || 0) + 1;
-          item.outName = outputBaseName(item.file, options.targetKb, used);
-          item.dlUrl = URL.createObjectURL(result.blob);
-        } catch (err) {
-          if (runId !== state.runId) return;
-          item.status = "fail";
-          item.settings = key;
-          item.error = err && err.message ? err.message : "";
+      try {
+        options = readOptions();
+        showBatchList();
+        updateCompressButton();
+        var used = {};
+        state.items.forEach(function (item) {
+          if (queue.indexOf(item) === -1 && item.outName) used[item.outName] = true;
+        });
+        var total = queue.length;
+        for (var i = 0; i < queue.length; i++) {
+          if (runId !== state.runId) break;
+          var item = queue[i];
+          var previousStatus = item.status;
+          var previousResult = item.result;
+          var previousUrl = item.dlUrl;
+          var previousName = item.outName;
+          var previousSettings = item.settings;
+          var previousStamp = item.stamp;
+          item.status = "compressing";
+          renderBatch();
+          setProgress(Math.round((i / total) * 100), i + " of " + total, "compress");
+          els.progressPct.textContent = i + "/" + total;
+          try {
+            var result = await processFile(item.file, options);
+            if (runId !== state.runId) {
+              item.status = previousStatus;
+              item.result = previousResult;
+              item.dlUrl = previousUrl;
+              item.outName = previousName;
+              item.settings = previousSettings;
+              item.stamp = previousStamp;
+              break;
+            }
+            if (previousUrl) URL.revokeObjectURL(previousUrl);
+            item.result = result;
+            item.status = "done";
+            item.settings = key;
+            item.stamp = (previousStamp || 0) + 1;
+            item.outName = outputBaseName(item.file, options.targetKb, used);
+            item.dlUrl = URL.createObjectURL(result.blob);
+          } catch (err) {
+            if (runId !== state.runId) {
+              item.status = previousStatus;
+              item.result = previousResult;
+              item.dlUrl = previousUrl;
+              item.outName = previousName;
+              item.settings = previousSettings;
+              item.stamp = previousStamp;
+              break;
+            }
+            item.status = "fail";
+            item.settings = key;
+            item.result = null;
+            if (previousUrl) URL.revokeObjectURL(previousUrl);
+            item.dlUrl = "";
+            item.error = err && err.message ? err.message : "";
+          }
+          renderBatch();
+          updateCompressButton();
         }
-        setProgress(Math.round(((i + 1) / total) * 100), (i + 1) + " of " + total, "compress");
-        els.progressPct.textContent = (i + 1) + "/" + total;
-        renderBatch();
+      } catch (err) {
+        if (runId === state.runId) setStatus(err && err.message ? err.message : "Something went wrong.", "error");
+      } finally {
+        if (runId === state.runId) settleBatchUi();
       }
-      if (runId !== state.runId) return;
-      var doneNow = state.items.filter(function (item) { return item.status === "done"; }).length;
-      var all = state.items.length;
-      setProgress(all ? Math.round((doneNow / all) * 100) : 100, "", "compress");
-      els.progressPct.textContent = doneNow + "/" + all;
-      setStatus(doneNow + " of " + all);
-      state.running = false;
-      state.hasResult = ok > 0;
-      updateCompressButton();
-      updateSteps();
     }
 
     function acceptFile(file) {
