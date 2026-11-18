@@ -12,9 +12,9 @@
     var UNIT_IEC = 1024;
     var PRESETS = [
       { kb: 10 },
-      { kb: 20, photo: "Navy", signature: "Signature" },
-      { kb: 25, photo: "PPSC" },
-      { kb: 30, photo: "FPSC" },
+      { kb: 20 },
+      { kb: 25 },
+      { kb: 30 },
       { kb: 50 },
       { kb: 100 },
       { kb: 200 }
@@ -315,13 +315,7 @@
         var btn = document.createElement("button");
         btn.type = "button";
         btn.dataset.kb = String(p.kb);
-        btn.appendChild(document.createTextNode(String(p.kb)));
-        var extra = state.mode === "signature" ? p.signature : p.photo;
-        if (extra) {
-          var small = document.createElement("small");
-          small.textContent = extra;
-          btn.appendChild(small);
-        }
+        btn.appendChild(document.createTextNode(String(p.kb) + " KB"));
         var on = current === p.kb;
         btn.classList.toggle("on", on);
         btn.setAttribute("aria-pressed", on ? "true" : "false");

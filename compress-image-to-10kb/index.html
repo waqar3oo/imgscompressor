@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Compress Image to 20 KB | ImgsCompressor</title>
-  <meta name="description" content="Make a JPEG of 20 KB or less in the browser. Photo mode is ready at 20 KB, with the long side reduced before quality is chosen.">
-  <link rel="canonical" href="https://imgscompressor.vercel.app/preview/seo/compress-image-to-20kb/">
+  <title>Compress Image to 10 KB | ImgsCompressor</title>
+  <meta name="description" content="Make a JPEG of 10 KB or less in the browser. Photo mode opens at 10 KB. Expect a softer picture than at 20 or 50 KB.">
+  <link rel="canonical" href="https://imgscompressor.vercel.app/compress-image-to-10kb/">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="../assets/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
@@ -15,26 +14,26 @@
   <meta name="theme-color" content="#F8FAFC">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ImgsCompressor">
-  <meta property="og:title" content="Compress Image to 20 KB | ImgsCompressor">
-  <meta property="og:description" content="Make a JPEG of 20 KB or less in the browser. Photo mode is ready at 20 KB, with the long side reduced before quality is chosen.">
-  <meta property="og:url" content="https://imgscompressor.vercel.app/preview/seo/compress-image-to-20kb/">
+  <meta property="og:title" content="Compress Image to 10 KB | ImgsCompressor">
+  <meta property="og:description" content="Make a JPEG of 10 KB or less in the browser. Photo mode opens at 10 KB. Expect a softer picture than at 20 or 50 KB.">
+  <meta property="og:url" content="https://imgscompressor.vercel.app/compress-image-to-10kb/">
   <meta property="og:image" content="https://imgscompressor.vercel.app/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Compress Image to 20 KB | ImgsCompressor">
-  <meta name="twitter:description" content="Make a JPEG of 20 KB or less in the browser. Photo mode is ready at 20 KB, with the long side reduced before quality is chosen.">
-  <meta name="twitter:url" content="https://imgscompressor.vercel.app/preview/seo/compress-image-to-20kb/">
+  <meta name="twitter:title" content="Compress Image to 10 KB | ImgsCompressor">
+  <meta name="twitter:description" content="Make a JPEG of 10 KB or less in the browser. Photo mode opens at 10 KB. Expect a softer picture than at 20 or 50 KB.">
+  <meta name="twitter:url" content="https://imgscompressor.vercel.app/compress-image-to-10kb/">
   <meta name="twitter:image" content="https://imgscompressor.vercel.app/og-image.png">
   <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebApplication", "name": "ImgsCompressor", "url": "https://imgscompressor.vercel.app/preview/seo/compress-image-to-20kb/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Make a JPEG of 20 KB or less in the browser. Photo mode is ready at 20 KB, with the long side reduced before quality is chosen."}
+{"@context": "https://schema.org", "@type": "WebApplication", "name": "ImgsCompressor", "url": "https://imgscompressor.vercel.app/compress-image-to-10kb/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Make a JPEG of 10 KB or less in the browser. Photo mode opens at 10 KB. Expect a softer picture than at 20 or 50 KB."}
 </script>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is the file allowed to be exactly 20 KB?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The check is at or under the target, using 1,000 bytes per KB unless you switch to 1,024."}}, {"@type": "Question", "name": "Will a photo that is already 15 KB be copied unchanged?", "acceptedAnswer": {"@type": "Answer", "text": "No. It is drawn again as a JPEG so camera metadata is not kept, and the new file still has to stay under 20 KB."}}, {"@type": "Question", "name": "Why does a huge photo look soft at 20 KB?", "acceptedAnswer": {"@type": "Answer", "text": "There are not many bytes left for detail. The long side is capped first so the softness is spread more evenly."}}]}
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can the JPEG be exactly 10 KB?", "acceptedAnswer": {"@type": "Answer", "text": "It stays at or under 10 KB. The line under the button shows the real size, which may be 9.6 KB or similar."}}, {"@type": "Question", "name": "Why does the photo look blurry?", "acceptedAnswer": {"@type": "Answer", "text": "Ten kilobytes cannot hold a sharp large portrait. Raising the limit, when the form allows it, is what restores detail."}}, {"@type": "Question", "name": "Is 10 KB a standard passport size?", "acceptedAnswer": {"@type": "Answer", "text": "No. This page is only the 10 KB tool. Passport and visa sites print their own maximum."}}]}
 </script>
   <link rel="stylesheet" href="../assets/app.css">
 </head>
-<body data-mode="photo" data-preset="20">
+<body data-mode="photo" data-preset="10">
   <div class="app">
     <header class="topbar">
       <a class="brand" href="../" aria-label="ImgsCompressor home">
@@ -204,27 +203,27 @@
   </div>
   <!-- page-copy:start -->
 <main class="seo" id="guide">
-  <h1>Compress an Image to 20 KB</h1>
-  <p class="lead">This page opens Photo mode with 20 KB already filled in.</p>
-  <h2>When 20 KB is the ceiling</h2>
-  <p>Some upload boxes refuse a photograph the moment it passes a small limit, even by a fraction of a kilobyte. Twenty is that kind of ceiling. The compressor on this page is aimed at it from the start, so you do not have to type the number.</p>
-  <p>A large camera file is shortened on its longest side to about 1,200 pixels before the quality search begins. That order keeps a face more readable than crushing a 4,000 pixel frame with quality alone. A picture that is already smaller is left at its own size. Nothing is stretched upward.</p>
-  <p>The result line prints the real size, for example 19.4 KB of 20 KB. The downloaded name uses that same figure, such as portrait-19.4kb.jpg. Batch works here too: compress the first set, add more, then compress only the new files and download a ZIP.</p>
-  <p>Change the number if the form you are filing asks for something else. A Navy registration page should be read on <a href="https://joinpaknavy.gov.pk/">joinpaknavy.gov.pk</a> before you treat 20 KB as the current rule. Stricter exam photos are covered on the <a href="../fpsc-photo-size/">FPSC</a> and <a href="../ppsc-photo-size/">PPSC</a> pages.</p>
+  <h1>Compress an Image to 10 KB</h1>
+  <p class="lead">Photo mode opens with 10 KB filled in, the smallest preset.</p>
+  <h2>The tightest preset</h2>
+  <p>Ten kilobytes is a hard stop. Portals that ask for a tiny file reject anything larger, so this page starts at that ceiling and you do not have to type it. The same Photo mode, batch list, and ZIP download are here as on the other size pages.</p>
+  <p>A large original is shortened on its longest side to about 1,200 pixels before quality is searched. A picture that is already smaller is not enlarged. There is very little room left for texture, so a face can look soft. That is the trade for fitting the limit, not a defect in the file.</p>
+  <p>The panel prints the real size, such as 9.8 KB of 10 KB, and the download name uses that same figure. Camera and location data are not copied into the new JPEG, even when the original was already under 10 KB.</p>
+  <p>If the result is too soft for the form, the form may allow more. <a href="../compress-image-to-20kb/">20 KB</a> and <a href="../compress-image-to-50kb/">50 KB</a> keep more detail. A portrait for a visa or ID should follow the number on that application, explained on the <a href="../passport-photo-size/">passport photo</a> page, rather than assuming 10 KB is universal.</p>
   <h2>Questions</h2>
   <div class="faq">
-    <details><summary>Is the file allowed to be exactly 20 KB?</summary><p>Yes. The check is at or under the target, using 1,000 bytes per KB unless you switch to 1,024.</p></details>
-    <details><summary>Will a photo that is already 15 KB be copied unchanged?</summary><p>No. It is drawn again as a JPEG so camera metadata is not kept, and the new file still has to stay under 20 KB.</p></details>
-    <details><summary>Why does a huge photo look soft at 20 KB?</summary><p>There are not many bytes left for detail. The long side is capped first so the softness is spread more evenly.</p></details>
+    <details><summary>Can the JPEG be exactly 10 KB?</summary><p>It stays at or under 10 KB. The line under the button shows the real size, which may be 9.6 KB or similar.</p></details>
+    <details><summary>Why does the photo look blurry?</summary><p>Ten kilobytes cannot hold a sharp large portrait. Raising the limit, when the form allows it, is what restores detail.</p></details>
+    <details><summary>Is 10 KB a standard passport size?</summary><p>No. This page is only the 10 KB tool. Passport and visa sites print their own maximum.</p></details>
   </div>
 </main>
 <footer class="site-foot"><nav aria-label="Guides">
   <a href="../">Home</a>
+  <a href="../compress-image-to-10kb/">10 KB</a>
   <a href="../compress-image-to-20kb/">20 KB</a>
   <a href="../compress-image-to-50kb/">50 KB</a>
   <a href="../compress-image-to-100kb/">100 KB</a>
-  <a href="../fpsc-photo-size/">FPSC photo</a>
-  <a href="../ppsc-photo-size/">PPSC photo</a>
+  <a href="../passport-photo-size/">Passport photo</a>
   <a href="../signature-resize/">Signature</a>
 </nav></footer>
 <!-- page-copy:end -->

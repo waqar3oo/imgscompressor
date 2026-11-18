@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://imgscompressor.vercel.app/</loc></url>
+  <url><loc>https://imgscompressor.vercel.app/compress-image-to-20kb/</loc></url>
+  <url><loc>https://imgscompressor.vercel.app/compress-image-to-50kb/</loc></url>
+  <url><loc>https://imgscompressor.vercel.app/compress-image-to-100kb/</loc></url>
+  <url><loc>https://imgscompressor.vercel.app/compress-image-to-10kb/</loc></url>
+  <url><loc>https://imgscompressor.vercel.app/passport-photo-size/</loc></url>
+  <url><loc>https://imgscompressor.vercel.app/signature-resize/</loc></url>
+</urlset>
