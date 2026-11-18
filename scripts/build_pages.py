@@ -14,11 +14,11 @@ ORIGIN = re.search(r'origin:\s*"([^"]+)"', CONFIG).group(1).rstrip("/")
 
 LINKS = [
     ("Home", ""),
+    ("10 KB", "compress-image-to-10kb/"),
     ("20 KB", "compress-image-to-20kb/"),
     ("50 KB", "compress-image-to-50kb/"),
     ("100 KB", "compress-image-to-100kb/"),
-    ("FPSC photo", "fpsc-photo-size/"),
-    ("PPSC photo", "ppsc-photo-size/"),
+    ("Passport photo", "passport-photo-size/"),
     ("Signature", "signature-resize/"),
 ]
 
@@ -114,8 +114,8 @@ HOME_FAQS = [
         "That row is marked as not reaching the target, and it is left out of the ZIP. The others still download.",
     ),
     (
-        "Will the presets match every government form?",
-        "No. The size table is a starting point from documents we could check. Read the advertisement you are applying under.",
+        "Do the preset numbers match a specific form?",
+        "No. They are convenient ceilings. If the form prints its own maximum, type that number.",
     ),
     (
         "Does the site work with no connection?",
@@ -130,35 +130,13 @@ HOME_BODY = """
     <li>Choose Photo or Signature, then type a maximum or tap a preset.</li>
     <li>Press Compress. Download the JPEG, or a ZIP of every finished file.</li>
   </ol>
-  <h2>Pakistan form sizes</h2>
-  <p>Use these only as a reading of the sources linked here. If a cell says to check the latest advert, the form in front of you wins.</p>
-  <div class="table-wrap">
-    <table class="size-table">
-      <thead><tr><th>Form</th><th>What we could verify</th><th>Source</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>FPSC photograph</td>
-          <td>The Section Officers Promotional Examination guideline says the passport photo must be JPEG and less than 30 KB. Later advertisements can differ.</td>
-          <td><a href="https://online.fpsc.gov.pk/fpsc/sope/SOPE2016_GuidelinesforApplyingOnline_01-12-2016.pdf">FPSC SOPE online guideline (PDF)</a></td>
-        </tr>
-        <tr>
-          <td>PPSC photograph and CNIC</td>
-          <td>The jobs page links a photograph and CNIC guide. Copies of the online application procedure say each image should be under 25 KB, while a later photograph note is described at 60 KB. Check the latest advert.</td>
-          <td><a href="https://www.ppsc.gop.pk/Jobs.aspx">PPSC jobs</a></td>
-        </tr>
-        <tr>
-          <td>Pakistan Navy registration photo</td>
-          <td>Register on the official site. A single KB figure was not confirmed from that site for this table. Check the latest advert.</td>
-          <td><a href="https://joinpaknavy.gov.pk/">Join Pak Navy</a></td>
-        </tr>
-        <tr>
-          <td>Signature</td>
-          <td>Forms often want a scan on white paper in dark ink. The KB limit is not the same on every advert. Check the latest advert.</td>
-          <td>See the signature page and the form you are filing.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <h2>Common size limits</h2>
+  <p>The chips are shortcuts, not rules from any agency. Use the number the form itself prints.</p>
+  <ul>
+    <li>Job and application portals usually state a maximum in kilobytes. Set that exact ceiling.</li>
+    <li>Passport, visa, and ID uploads differ by agency. Start from the figure on the page you are filing, then check the result is still a clear likeness.</li>
+    <li>A signature scan is a separate file from a portrait. Signature mode cleans a pale background and keeps the ink dark.</li>
+  </ul>
 """.strip("\n")
 
 PAGES = [
@@ -184,7 +162,7 @@ PAGES = [
   <p>Some upload boxes refuse a photograph the moment it passes a small limit, even by a fraction of a kilobyte. Twenty is that kind of ceiling. The compressor on this page is aimed at it from the start, so you do not have to type the number.</p>
   <p>A large camera file is shortened on its longest side to about 1,200 pixels before the quality search begins. That order keeps a face more readable than crushing a 4,000 pixel frame with quality alone. A picture that is already smaller is left at its own size. Nothing is stretched upward.</p>
   <p>The result line prints the real size, for example 19.4 KB of 20 KB. The downloaded name uses that same figure, such as portrait-19.4kb.jpg. Batch works here too: compress the first set, add more, then compress only the new files and download a ZIP.</p>
-  <p>Change the number if the form you are filing asks for something else. A Navy registration page should be read on <a href="https://joinpaknavy.gov.pk/">joinpaknavy.gov.pk</a> before you treat 20 KB as the current rule. Stricter exam photos are covered on the <a href="../fpsc-photo-size/">FPSC</a> and <a href="../ppsc-photo-size/">PPSC</a> pages.</p>
+  <p>Change the number if the form asks for something else. Ten kilobytes is tighter, and fifty is the clearer middle size: <a href="../compress-image-to-10kb/">10 KB</a> and <a href="../compress-image-to-50kb/">50 KB</a>. A passport or visa upload should follow the figure on that application, which is why the <a href="../passport-photo-size/">passport photo</a> page does not pretend one size fits every country.</p>
 """.strip("\n"),
         "faqs": [
             ("Is the file allowed to be exactly 20 KB?", "Yes. The check is at or under the target, using 1,000 bytes per KB unless you switch to 1,024."),
@@ -205,7 +183,7 @@ PAGES = [
   <p>Fifty kilobytes is enough for a clearer portrait than a 20 KB cap, and it is still small enough for many portals and mail forms. This page starts there so the first press of Compress is already aimed at that ceiling.</p>
   <p>If the longest side is over 1,200 pixels, it is reduced to 1,200 before quality is searched. The search then keeps the largest JPEG that does not cross 50 KB. You can still type another number if the instructions are tighter or looser.</p>
   <p>The name on the download matches the size printed in the panel, rounded the same way. A batch of mixed JPG, PNG, and WebP files shares this limit. Pictures you add while a run is going stay marked Waiting until you compress the new ones.</p>
-  <p>Do not use 50 KB when the advert says 20, 25, or 30. Those pages are separate: <a href="../compress-image-to-20kb/">20 KB</a>, <a href="../ppsc-photo-size/">PPSC</a>, and <a href="../fpsc-photo-size/">FPSC</a>. An original that is already under 50 KB is still re-encoded, so the download is not a byte-for-byte copy of the file you dropped in.</p>
+  <p>Do not use 50 KB when the instructions say 10 or 20. Those pages are separate: <a href="../compress-image-to-10kb/">10 KB</a> and <a href="../compress-image-to-20kb/">20 KB</a>. An original that is already under 50 KB is still re-encoded, so the download is not a byte-for-byte copy of the file you dropped in.</p>
 """.strip("\n"),
         "faqs": [
             ("Does 50 KB mean the file will be exactly 50.0 KB?", "It will be as close as the encoder can get without going over. The panel shows the real size."),
@@ -226,7 +204,7 @@ PAGES = [
   <p>A 100 KB ceiling suits a portrait or a scan when the form allows it and you want hair, cloth, or printed text to stay easier to read. It is the roomier preset, not a substitute for a tighter exam rule.</p>
   <p>Originals longer than 1,600 pixels on the long side are brought to 1,600 first. Smaller originals are not enlarged. Quality is then chosen so the JPEG stops at or under 100 KB. The exact-size fields under More options still let you set a width and height when a form prints pixels as well as kilobytes.</p>
   <p>When the run ends, the button reads Compress again or Compress all. It should not stay on Compressing after the queue is done. The percentage beside the bar is dark blue on the white panel so it remains readable.</p>
-  <p>Switch away from this page for a signature or a small exam photo. <a href="../signature-resize/">Signature resize</a> starts in Signature mode, and <a href="../compress-image-to-20kb/">20 KB</a> is the strict portrait preset.</p>
+  <p>Switch away from this page when the ceiling is small. <a href="../compress-image-to-10kb/">10 KB</a> and <a href="../compress-image-to-20kb/">20 KB</a> are the tight presets. <a href="../signature-resize/">Signature resize</a> starts in Signature mode rather than Photo mode.</p>
 """.strip("\n"),
         "faqs": [
             ("Will 100 KB upscale a small scan?", "No. The long-side cap only shrinks pictures that are already larger than 1,600 pixels."),
@@ -237,46 +215,46 @@ PAGES = [
         "preset": "100",
     },
     {
-        "slug": "fpsc-photo-size",
-        "title": "FPSC Photo Size | Compress to 30 KB | ImgsCompressor",
-        "description": "Prepare an FPSC-style passport JPEG under 30 KB. The 30 KB preset is selected. Confirm the current advertisement before you upload.",
-        "h1": "FPSC Photo Size for the Online Form",
-        "lead": "Photo mode opens at 30 KB, the figure in the FPSC Section Officers guideline.",
+        "slug": "compress-image-to-10kb",
+        "title": "Compress Image to 10 KB | ImgsCompressor",
+        "description": "Make a JPEG of 10 KB or less in the browser. Photo mode opens at 10 KB. Expect a softer picture than at 20 or 50 KB.",
+        "h1": "Compress an Image to 10 KB",
+        "lead": "Photo mode opens with 10 KB filled in, the smallest preset.",
         "body": """
-  <h2>The 30 KB photograph line</h2>
-  <p>The Federal Public Service Commission guideline for the Section Officers Promotional Examination tells applicants to upload a passport-size photograph with the Browse button, and it says the picture must be less than 30 KB in JPEG only. That PDF is on the FPSC site: <a href="https://online.fpsc.gov.pk/fpsc/sope/SOPE2016_GuidelinesforApplyingOnline_01-12-2016.pdf">SOPE online guideline</a>. This page selects 30 KB so you can make a file in that range.</p>
-  <p>The document is from that examination’s instructions, not a promise about every later consolidated post. Read the advertisement you are using, and the current online guideline, before you submit. This tool does not file the application, pay the fee, or check your eligibility.</p>
-  <p>Drop the photo and press Compress. The JPEG is built on this device, metadata from the camera file is not copied across, and the name matches the size you see, such as photo-28.6kb.jpg. If you also need a signature, the advert usually prints that limit separately. Open <a href="../signature-resize/">signature resize</a> and set the number it shows.</p>
-  <p>A CNIC scan and a fee challan are different uploads. Do not assume they share the 30 KB photo rule.</p>
+  <h2>The tightest preset</h2>
+  <p>Ten kilobytes is a hard stop. Portals that ask for a tiny file reject anything larger, so this page starts at that ceiling and you do not have to type it. The same Photo mode, batch list, and ZIP download are here as on the other size pages.</p>
+  <p>A large original is shortened on its longest side to about 1,200 pixels before quality is searched. A picture that is already smaller is not enlarged. There is very little room left for texture, so a face can look soft. That is the trade for fitting the limit, not a defect in the file.</p>
+  <p>The panel prints the real size, such as 9.8 KB of 10 KB, and the download name uses that same figure. Camera and location data are not copied into the new JPEG, even when the original was already under 10 KB.</p>
+  <p>If the result is too soft for the form, the form may allow more. <a href="../compress-image-to-20kb/">20 KB</a> and <a href="../compress-image-to-50kb/">50 KB</a> keep more detail. A portrait for a visa or ID should follow the number on that application, explained on the <a href="../passport-photo-size/">passport photo</a> page, rather than assuming 10 KB is universal.</p>
 """.strip("\n"),
         "faqs": [
-            ("Is 30 KB the limit on every FPSC post today?", "The cited guideline says less than 30 KB for that photograph step. Check the latest advert, because a later post can change it."),
-            ("Does the tool crop to passport shape?", "Only if you enter both width and height under More options. Otherwise it keeps the photo’s own shape and controls the file size."),
-            ("Where is the PPSC figure?", "PPSC is a different commission. Its working target on this site is 25 KB, on the PPSC photo page."),
+            ("Can the JPEG be exactly 10 KB?", "It stays at or under 10 KB. The line under the button shows the real size, which may be 9.6 KB or similar."),
+            ("Why does the photo look blurry?", "Ten kilobytes cannot hold a sharp large portrait. Raising the limit, when the form allows it, is what restores detail."),
+            ("Is 10 KB a standard passport size?", "No. This page is only the 10 KB tool. Passport and visa sites print their own maximum."),
         ],
         "mode": "photo",
-        "preset": "30",
+        "preset": "10",
     },
     {
-        "slug": "ppsc-photo-size",
-        "title": "PPSC Photo Size | Compress to 25 KB | ImgsCompressor",
-        "description": "Prepare a PPSC photograph under 25 KB. Photo mode starts at 25 KB. Read the current PPSC guide before you submit.",
-        "h1": "PPSC Photo Size for the Online Application",
-        "lead": "Photo mode opens at 25 KB, the stricter figure quoted from PPSC application steps.",
+        "slug": "passport-photo-size",
+        "title": "Passport Photo Size for Online Forms | ImgsCompressor",
+        "description": "Compress a passport-style photo to the KB limit on your application. Photo mode starts at 50 KB. Use the number the form prints.",
+        "h1": "Passport Photo Size for an Online Application",
+        "lead": "Photo mode starts at 50 KB, a practical middle size when you still need to type the form’s own limit.",
         "body": """
-  <h2>Two numbers, one safer file</h2>
-  <p>The Punjab Public Service Commission jobs page tells applicants to read the photograph and CNIC picture requirements before they apply: <a href="https://www.ppsc.gop.pk/Jobs.aspx">ppsc.gop.pk/Jobs.aspx</a>. Copies of the commission’s online application procedure say the latest photograph and the CNIC front image should each be under 25 KB. A later photograph note has been described, by people comparing the two documents, as allowing up to 60 KB.</p>
-  <p>This page does not treat those as one rule. It preselects 25 KB because a file under that stricter line also fits a 60 KB box. If the advertisement open in front of you prints another number, replace 25 before you compress.</p>
-  <p>Use Photo mode for the portrait. The browser redraws it as a JPEG, drops camera metadata, and keeps the result at or under the box. Zoom in on a CNIC image after compressing: identity-card text is small, and if it turns muddy you should follow the higher limit when the portal actually accepts it.</p>
-  <p>Background, centimetre size, and what you may wear are in the commission’s own photograph guide, not invented here. The <a href="../fpsc-photo-size/">FPSC page</a> is a different 30 KB photograph rule.</p>
+  <h2>Read the form, then set the ceiling</h2>
+  <p>Online passport, visa, and identity uploads do not share one file size. One site asks for a small JPEG, another allows a larger one, and some also ask for pixel dimensions or a plain background. This page does not invent a worldwide rule. It opens the compressor so you can meet the number printed on the application you are filling.</p>
+  <p>Fifty kilobytes is already selected only as a starting point. Replace it with the maximum on the form before you press Compress. If that form also states width and height, enter both under More options. Leaving them blank keeps the shape of the photo you uploaded and only controls the file size.</p>
+  <p>The JPEG is built in the browser. Location and camera data from the original are not carried into the download, and the file name matches the size shown on screen. Check the likeness before you upload: a limit that is very small will look softer, which you can compare with the slider.</p>
+  <p>A signature, when the same form asks for one, is a different image. Use <a href="../signature-resize/">signature resize</a> and the limit printed next to the signature, which is often not the portrait’s number. Exact ceilings of <a href="../compress-image-to-20kb/">20 KB</a> and <a href="../compress-image-to-100kb/">100 KB</a> are separate pages if the form names those.</p>
 """.strip("\n"),
         "faqs": [
-            ("Why not start at 60 KB?", "Copies of the upload steps say under 25 KB. Starting there avoids a file that passes one note and fails the other."),
-            ("Is the CNIC the same preset?", "Prepare it under the same KB ceiling only if the guide you are reading groups it with the photograph. Check that the numbers stay legible."),
-            ("Can I do the photo and a signature together?", "Add both in Batch only when they share a limit. Otherwise compress them on separate passes with the number each one requires."),
+            ("Is 50 KB the official passport size?", "No. Fifty is only the number this page starts with. Type the maximum written on the application."),
+            ("Will this crop the photo to a passport shape?", "Only if you enter both a width and a height. Otherwise the original proportions stay, and the tool limits the kilobytes."),
+            ("Does the tool submit the application?", "No. It only prepares the JPEG on this device. You still upload that file on the agency’s own site."),
         ],
         "mode": "photo",
-        "preset": "25",
+        "preset": "50",
     },
     {
         "slug": "signature-resize",
@@ -289,7 +267,7 @@ PAGES = [
   <p>Sign on plain white paper with black or blue ink. Photograph it straight down, or scan it, and keep the frame tight so the desk does not fill the file. This page starts in Signature mode. Clean background and grayscale are both on: pale paper is pushed toward white, and the ink stays dark.</p>
   <p>Twenty kilobytes is a practical start, not a universal rule. If the advert prints 10 KB, 30 KB, or a range, type that number. The JPEG will stop at or under whatever you set, and the file name will use the real size shown on the screen.</p>
   <p>You can turn the two signature options off under the mode switch if the form wants the scan left untouched apart from size. Exact width and height, when a form states them, sit under More options. Leaving both blank keeps the crop you already made.</p>
-  <p>Photograph limits are separate. <a href="../fpsc-photo-size/">FPSC</a> and <a href="../ppsc-photo-size/">PPSC</a> each have their own photo page, and a signature line on those forms is often a different number from the portrait.</p>
+  <p>Photograph limits are separate from a signature. The <a href="../passport-photo-size/">passport photo</a> page is for a portrait upload, and <a href="../compress-image-to-20kb/">20 KB</a> is only a starting ceiling when the form is silent.</p>
 """.strip("\n"),
         "faqs": [
             ("Should I upload the original camera photo?", "No. Use the JPEG this page downloads. The original is often far larger than a form accepts, and it can carry location data."),
@@ -492,13 +470,16 @@ def main():
     html = set_head(html, home, public_url("", False), False)
     (ROOT / "index.html").write_text(html)
     write_tree(html, preview=False)
-    write_tree((ROOT / "index.html").read_text(), preview=True)
     write_robots_and_sitemap()
-    batch = ROOT / "preview" / "batch"
-    if batch.exists():
-        shutil.rmtree(batch)
+    keep = {p["slug"] for p in PAGES if p["slug"]}
+    for child in ROOT.iterdir():
+        if child.is_dir() and (child / "index.html").exists() and child.name not in keep:
+            shutil.rmtree(child)
+    preview = ROOT / "preview"
+    if preview.exists():
+        shutil.rmtree(preview)
     print("origin", ORIGIN)
-    print("pages", len(PAGES), "preview ready")
+    print("pages", len(PAGES))
 
 
 if __name__ == "__main__":

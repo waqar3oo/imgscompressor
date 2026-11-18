@@ -29,7 +29,7 @@
 {"@context": "https://schema.org", "@type": "WebApplication", "name": "ImgsCompressor", "url": "https://imgscompressor.vercel.app/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Compress a photo or signature to an exact KB in your browser. No sign-up and no watermark. The file stays on this device."}
 </script>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does the photo leave this device?", "acceptedAnswer": {"@type": "Answer", "text": "No. The browser compresses it locally. The page does not upload the picture or send it to an account."}}, {"@type": "Question", "name": "What does the KB limit mean?", "acceptedAnswer": {"@type": "Answer", "text": "The JPEG is at or under the number you set. One KB is 1,000 bytes unless you switch the option to 1,024."}}, {"@type": "Question", "name": "Why is a small original still rewritten?", "acceptedAnswer": {"@type": "Answer", "text": "Saving through the canvas drops camera and location data that can sit inside the file you started with. The new JPEG still stays under the limit."}}, {"@type": "Question", "name": "Can I compress more than one picture?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Batch uses the same mode and limit for up to 20 files, then packs the finished JPEGs into a ZIP."}}, {"@type": "Question", "name": "What if one file cannot hit the limit?", "acceptedAnswer": {"@type": "Answer", "text": "That row is marked as not reaching the target, and it is left out of the ZIP. The others still download."}}, {"@type": "Question", "name": "Will the presets match every government form?", "acceptedAnswer": {"@type": "Answer", "text": "No. The size table is a starting point from documents we could check. Read the advertisement you are applying under."}}, {"@type": "Question", "name": "Does the site work with no connection?", "acceptedAnswer": {"@type": "Answer", "text": "There is no offline app mode. Open the page while you are online. Compression itself does not contact a server."}}]}
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does the photo leave this device?", "acceptedAnswer": {"@type": "Answer", "text": "No. The browser compresses it locally. The page does not upload the picture or send it to an account."}}, {"@type": "Question", "name": "What does the KB limit mean?", "acceptedAnswer": {"@type": "Answer", "text": "The JPEG is at or under the number you set. One KB is 1,000 bytes unless you switch the option to 1,024."}}, {"@type": "Question", "name": "Why is a small original still rewritten?", "acceptedAnswer": {"@type": "Answer", "text": "Saving through the canvas drops camera and location data that can sit inside the file you started with. The new JPEG still stays under the limit."}}, {"@type": "Question", "name": "Can I compress more than one picture?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Batch uses the same mode and limit for up to 20 files, then packs the finished JPEGs into a ZIP."}}, {"@type": "Question", "name": "What if one file cannot hit the limit?", "acceptedAnswer": {"@type": "Answer", "text": "That row is marked as not reaching the target, and it is left out of the ZIP. The others still download."}}, {"@type": "Question", "name": "Do the preset numbers match a specific form?", "acceptedAnswer": {"@type": "Answer", "text": "No. They are convenient ceilings. If the form prints its own maximum, type that number."}}, {"@type": "Question", "name": "Does the site work with no connection?", "acceptedAnswer": {"@type": "Answer", "text": "There is no offline app mode. Open the page while you are online. Compression itself does not contact a server."}}]}
 </script>
   <link rel="stylesheet" href="assets/app.css">
 </head>
@@ -211,35 +211,13 @@
     <li>Choose Photo or Signature, then type a maximum or tap a preset.</li>
     <li>Press Compress. Download the JPEG, or a ZIP of every finished file.</li>
   </ol>
-  <h2>Pakistan form sizes</h2>
-  <p>Use these only as a reading of the sources linked here. If a cell says to check the latest advert, the form in front of you wins.</p>
-  <div class="table-wrap">
-    <table class="size-table">
-      <thead><tr><th>Form</th><th>What we could verify</th><th>Source</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>FPSC photograph</td>
-          <td>The Section Officers Promotional Examination guideline says the passport photo must be JPEG and less than 30 KB. Later advertisements can differ.</td>
-          <td><a href="https://online.fpsc.gov.pk/fpsc/sope/SOPE2016_GuidelinesforApplyingOnline_01-12-2016.pdf">FPSC SOPE online guideline (PDF)</a></td>
-        </tr>
-        <tr>
-          <td>PPSC photograph and CNIC</td>
-          <td>The jobs page links a photograph and CNIC guide. Copies of the online application procedure say each image should be under 25 KB, while a later photograph note is described at 60 KB. Check the latest advert.</td>
-          <td><a href="https://www.ppsc.gop.pk/Jobs.aspx">PPSC jobs</a></td>
-        </tr>
-        <tr>
-          <td>Pakistan Navy registration photo</td>
-          <td>Register on the official site. A single KB figure was not confirmed from that site for this table. Check the latest advert.</td>
-          <td><a href="https://joinpaknavy.gov.pk/">Join Pak Navy</a></td>
-        </tr>
-        <tr>
-          <td>Signature</td>
-          <td>Forms often want a scan on white paper in dark ink. The KB limit is not the same on every advert. Check the latest advert.</td>
-          <td>See the signature page and the form you are filing.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <h2>Common size limits</h2>
+  <p>The chips are shortcuts, not rules from any agency. Use the number the form itself prints.</p>
+  <ul>
+    <li>Job and application portals usually state a maximum in kilobytes. Set that exact ceiling.</li>
+    <li>Passport, visa, and ID uploads differ by agency. Start from the figure on the page you are filing, then check the result is still a clear likeness.</li>
+    <li>A signature scan is a separate file from a portrait. Signature mode cleans a pale background and keeps the ink dark.</li>
+  </ul>
   <h2>Questions</h2>
   <div class="faq">
     <details><summary>Does the photo leave this device?</summary><p>No. The browser compresses it locally. The page does not upload the picture or send it to an account.</p></details>
@@ -247,17 +225,17 @@
     <details><summary>Why is a small original still rewritten?</summary><p>Saving through the canvas drops camera and location data that can sit inside the file you started with. The new JPEG still stays under the limit.</p></details>
     <details><summary>Can I compress more than one picture?</summary><p>Yes. Batch uses the same mode and limit for up to 20 files, then packs the finished JPEGs into a ZIP.</p></details>
     <details><summary>What if one file cannot hit the limit?</summary><p>That row is marked as not reaching the target, and it is left out of the ZIP. The others still download.</p></details>
-    <details><summary>Will the presets match every government form?</summary><p>No. The size table is a starting point from documents we could check. Read the advertisement you are applying under.</p></details>
+    <details><summary>Do the preset numbers match a specific form?</summary><p>No. They are convenient ceilings. If the form prints its own maximum, type that number.</p></details>
     <details><summary>Does the site work with no connection?</summary><p>There is no offline app mode. Open the page while you are online. Compression itself does not contact a server.</p></details>
   </div>
 </main>
 <footer class="site-foot"><nav aria-label="Guides">
   <a href="./">Home</a>
+  <a href="compress-image-to-10kb/">10 KB</a>
   <a href="compress-image-to-20kb/">20 KB</a>
   <a href="compress-image-to-50kb/">50 KB</a>
   <a href="compress-image-to-100kb/">100 KB</a>
-  <a href="fpsc-photo-size/">FPSC photo</a>
-  <a href="ppsc-photo-size/">PPSC photo</a>
+  <a href="passport-photo-size/">Passport photo</a>
   <a href="signature-resize/">Signature</a>
 </nav></footer>
 <!-- page-copy:end -->
