@@ -1,8 +1,8 @@
 # ImgsCompressor
 
-Live site: https://waqar3oo.github.io/imgscompressor/
+Canonical site for now: https://imgscompressor.vercel.app/
 
-imgscompressor.com is coming soon. Until that domain is connected, use the GitHub Pages address above.
+GitHub Pages also serves this repo at https://waqar3oo.github.io/imgscompressor/. imgscompressor.com is not connected yet. The host used in canonical links lives in site.config.js.
 
 A tiny, private photo-and-signature compressor. You set a maximum size in KB; it gives you a JPEG that stays under that limit. Everything runs in your browser. Your photo never leaves your device.
 
@@ -59,4 +59,4 @@ No build step, no account APIs, no server. The page makes no network requests of
 
 ## Privacy
 
-The page does not upload your file, does not call any API, and works offline once loaded. You can confirm this by opening `index.html` from disk and disconnecting from the internet.
+The page does not upload your file and does not call an API to compress it. It is not packaged as an offline app; open it while you are online. After the page has loaded, compression stays in the browser.

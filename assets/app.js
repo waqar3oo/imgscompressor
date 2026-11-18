@@ -1,977 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="robots" content="noindex">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>ImgsCompressor – Free Image Compressor to Exact KB (20KB, 30KB, 50KB, 100KB)</title>
-  <meta name="description" content="Free Image Compressor for an exact KB. No sign-up, free, and no watermark. Private and offline, with NADRA, PPSC, and FPSC presets.">
-  <link rel="canonical" href="https://waqar3oo.github.io/imgscompressor/">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="assets/favicon.ico" sizes="any">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#F8FAFC">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="ImgsCompressor">
-  <meta property="og:title" content="ImgsCompressor – Free Image Compressor to Exact KB (20KB, 30KB, 50KB, 100KB)">
-  <meta property="og:description" content="Free Image Compressor for an exact KB. No sign-up, free, and no watermark. Private and offline, with NADRA, PPSC, and FPSC presets.">
-  <meta property="og:url" content="https://waqar3oo.github.io/imgscompressor/">
-  <meta property="og:image" content="https://waqar3oo.github.io/imgscompressor/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ImgsCompressor – Free Image Compressor to Exact KB (20KB, 30KB, 50KB, 100KB)">
-  <meta name="twitter:description" content="Free Image Compressor for an exact KB. No sign-up, free, and no watermark. Private and offline, with NADRA, PPSC, and FPSC presets.">
-  <meta name="twitter:url" content="https://waqar3oo.github.io/imgscompressor/">
-  <meta name="twitter:image" content="https://waqar3oo.github.io/imgscompressor/og-image.png">
-  <style>
-    :root {
-      --bg: #F8FAFC;
-      --paper: #FFFFFF;
-      --ink: #1C1916;
-      --muted: #6B645C;
-      --line: #E2E8F0;
-      --line-strong: #CBD5E1;
-      --accent: #2563EB;
-      --accent-2: #1E40AF;
-      --accent-soft: #DBEAFE;
-      --accent-ring: #93C5FD;
-      --primary: #1C1916;
-      --chip: #F1F5F9;
-      --ok: #3E8A5E;
-      --ok-bg: #E6F3EB;
-      --ok-ring: #C5E3D0;
-      --warn: #8a5a00;
-      --warn-bg: #fff6e8;
-      --warn-ring: #f0d7a8;
-      --danger: #9b1c1c;
-      --shadow: 0 2px 6px rgba(28, 25, 22, 0.04), 0 16px 40px rgba(28, 25, 22, 0.08);
-      --radius: 24px;
-      --font: Poppins, Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
-    }
-    * { box-sizing: border-box; }
-    [hidden] { display: none !important; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--font);
-      -webkit-font-smoothing: antialiased;
-    }
-    @media (min-width: 769px) {
-      html, body { overflow: hidden; }
-    }
-    button, input { font: inherit; color: inherit; }
-    button { cursor: pointer; }
-    button, .btn, .chips button, .modes button, .drop, .replace {
-      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
-    }
-    .progress .bar { transition: width 0.2s linear; }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-        scroll-behavior: auto !important;
-      }
-    }
-    .app {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      background: var(--bg);
-    }
-    .topbar {
-      flex: 0 0 auto;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px 16px;
-      padding: 12px 20px 8px;
-      background: transparent;
-    }
-    .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .logo { width: 36px; height: 36px; flex-shrink: 0; display: block; }
-    h1 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: -0.04em;
-      font-weight: 500;
-      line-height: 1.1;
-      color: var(--muted);
-    }
-    .w-imgs { font-weight: 700; color: var(--ink); }
-    .w-rest { font-weight: 500; color: var(--muted); }
-    .tagline {
-      margin: 4px 0 0;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      color: var(--muted);
-      line-height: 1.3;
-      white-space: nowrap;
-    }
-    .privacy {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 1;
-      min-width: 0;
-      background: var(--accent-soft);
-      color: var(--accent-2);
-      border: 1px solid var(--accent);
-      border-radius: 999px;
-      padding: 6px 12px 6px 10px;
-      font-size: 12.5px;
-      font-weight: 500;
-      line-height: 1.3;
-    }
-    .privacy svg { flex-shrink: 0; display: block; }
-    .stepper-wrap {
-      flex: 0 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 20px;
-    }
-    .stepper {
-      display: flex;
-      align-items: center;
-      width: min(760px, 100%);
-    }
-    .step {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13.5px;
-      font-weight: 700;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .step .num {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: var(--chip);
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      border: 1px solid var(--line);
-    }
-    .step.done { color: var(--ink); }
-    .step.done .num { background: var(--primary); color: var(--paper); border-color: var(--primary); }
-    .step.current { color: var(--ink); }
-    .step.current .num {
-      background: var(--accent-soft);
-      color: var(--ink);
-      border-color: var(--accent-2);
-      box-shadow: 0 0 0 3px var(--accent-soft);
-    }
-    .step-line {
-      flex: 1;
-      height: 2px;
-      background: var(--line-strong);
-      margin: 0 12px;
-      min-width: 24px;
-    }
-    .step-line.done { background: var(--primary); }
-    .l2-body {
-      flex: 1;
-      min-height: 0;
-      padding: 0 16px 10px;
-      display: flex;
-    }
-    .l2-card {
-      flex: 1;
-      min-height: 0;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: 1.45fr 1fr;
-      overflow: hidden;
-    }
-    .stage {
-      position: relative;
-      min-width: 0;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      background-color: #F1F5F9;
-      background-image:
-        linear-gradient(45deg, #E2E8F0 25%, transparent 25%),
-        linear-gradient(-45deg, #E2E8F0 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #E2E8F0 75%),
-        linear-gradient(-45deg, transparent 75%, #E2E8F0 75%);
-      background-size: 16px 16px;
-      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
-      overflow: hidden;
-    }
-    .stage-toolbar {
-      flex: 0 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 10px 12px 0;
-      z-index: 5;
-    }
-    .stage-tools { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-    .stage-body { position: relative; flex: 1 1 auto; min-height: 0; }
-    .seg {
-      display: inline-flex;
-      background: var(--chip);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 3px;
-    }
-    .seg button {
-      appearance: none;
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      min-height: 32px;
-      padding: 4px 16px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 13px;
-    }
-    .seg button[aria-selected="true"] {
-      background: var(--paper);
-      color: var(--ink);
-      box-shadow: 0 1px 2px rgba(28, 25, 22, 0.08);
-    }
-    .seg button:focus-visible, .text-btn:focus-visible, .icon-btn:focus-visible {
-      outline: 2px solid var(--accent-2);
-      outline-offset: 2px;
-    }
-    .text-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .text-btn svg, .privacy svg, .batch-upload svg { display: block; }
-    .drop {
-      position: absolute;
-      inset: 18px;
-      border: 1.5px dashed var(--line-strong);
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.78);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 24px;
-      cursor: pointer;
-      gap: 6px;
-    }
-    .drop:hover, .drop.is-drag, .drop:focus-visible {
-      border-color: var(--accent);
-      background: var(--accent-soft);
-      outline: none;
-    }
-    .drop strong { font-size: 1.15rem; letter-spacing: -0.02em; }
-    .drop span { color: var(--muted); font-size: 0.92rem; }
-    .drop-actions { margin-top: 14px; }
-    .batch-upload {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 40px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--accent);
-      background: var(--accent-soft);
-      color: var(--accent-2);
-      font-size: 13.5px;
-      font-weight: 700;
-    }
-    .batch-upload svg { display: block; flex-shrink: 0; }
-    html[data-batch="off"] .batch-only { display: none !important; }
-    .app, .app * { touch-action: pan-y; }
-    .view { position: absolute; inset: 0; }
-    .view.is-split { touch-action: none; cursor: ew-resize; user-select: none; -webkit-user-select: none; }
-    .view.is-split, .view.is-split * { touch-action: none; }
-    .view img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      object-fit: contain;
-      object-position: center center;
-      background: transparent;
-      user-select: none;
-      -webkit-user-drag: none;
-      pointer-events: none;
-    }
-    .handle {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 44px;
-      transform: translateX(-50%);
-      z-index: 4;
-      touch-action: none;
-      pointer-events: auto;
-    }
-    .handle .bar {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 3px;
-      margin-left: -1.5px;
-      background: #fff;
-      box-shadow: 0 0 0 1px rgba(28, 31, 30, 0.15);
-      pointer-events: none;
-    }
-    .handle .knob {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #fff;
-      border: 3px solid var(--accent-2);
-      box-shadow: 0 4px 14px rgba(28, 25, 22, 0.18);
-      display: grid;
-      place-items: center;
-      color: var(--ink);
-      padding: 0;
-      touch-action: none;
-      pointer-events: auto;
-      cursor: ew-resize;
-    }
-    .handle .knob:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
-    .tag {
-      position: absolute;
-      top: 12px;
-      z-index: 4;
-      background: rgba(28, 31, 30, 0.72);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 4px 8px;
-      border-radius: 6px;
-    }
-    .tag.left { left: 12px; }
-    .tag.right { right: 12px; }
-    .compare-meta {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 4;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 18px 12px 8px;
-      background: linear-gradient(transparent, rgba(28, 31, 30, 0.55));
-      color: #fff;
-      font-size: 12px;
-      font-weight: 500;
-    }
-    .cap {
-      display: flex;
-      align-items: baseline;
-      max-width: 48%;
-      min-width: 0;
-      overflow: hidden;
-    }
-    .cap-right {
-      flex-shrink: 0;
-      margin-left: auto;
-      white-space: nowrap;
-    }
-    .cap-base {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 0;
-      flex-shrink: 1;
-    }
-    .cap-ext,
-    .cap-rest {
-      flex-shrink: 0;
-      white-space: nowrap;
-    }
-    .preview-actions {
-      position: absolute;
-      z-index: 6;
-      top: 12px;
-      right: 12px;
-      display: flex;
-      gap: 8px;
-    }
-    .view.is-split .preview-actions { top: auto; bottom: 40px; }
-    .replace, .clear-all {
-      appearance: none;
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--ink);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      border-radius: 999px;
-      padding: 4px 10px;
-      min-height: 32px;
-      font-size: 12px;
-      font-weight: 700;
-      box-shadow: 0 1px 4px rgba(28, 31, 30, 0.18);
-    }
-    .back-batch {
-      position: absolute;
-      z-index: 6;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      appearance: none;
-      background: rgba(255, 255, 255, 0.94);
-      color: var(--ink);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 4px 12px;
-      min-height: 32px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .batch {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-      background: var(--paper);
-    }
-    .batch[hidden] { display: none !important; }
-    .batch-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--line);
-    }
-    .text-btn {
-      appearance: none;
-      background: var(--bg);
-      color: var(--ink);
-      border: 1px solid var(--line-strong);
-      border-radius: 999px;
-      min-height: 32px;
-      padding: 4px 12px;
-      font-size: 12.5px;
-      font-weight: 700;
-    }
-    .batch-note {
-      margin: 0;
-      flex: 1 1 160px;
-      color: var(--muted);
-      font-size: 12.5px;
-    }
-    .batch-list {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow: auto;
-    }
-    .batch-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--line);
-      min-width: 0;
-    }
-    .batch-open {
-      appearance: none;
-      background: transparent;
-      border: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1 1 auto;
-      min-width: 0;
-      text-align: left;
-      padding: 0;
-      color: inherit;
-    }
-    .batch-thumb {
-      width: 44px;
-      height: 44px;
-      object-fit: cover;
-      border-radius: 8px;
-      background: var(--chip);
-      flex-shrink: 0;
-    }
-    .batch-copy { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-    .batch-name { display: flex; min-width: 0; max-width: 100%; }
-    .batch-sizes, .batch-status { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .batch-statusline { display: flex; align-items: center; gap: 8px; min-width: 0; }
-    .batch-status.is-done { color: var(--ok); font-weight: 700; }
-    .batch-status.is-fail { color: var(--warn); font-weight: 700; }
-    .batch-actions { display: flex; gap: 4px; flex-shrink: 0; }
-    .icon-btn {
-      appearance: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      border: 1px solid var(--line-strong);
-      background: #fff;
-      color: var(--muted);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      text-decoration: none;
-    }
-    .icon-btn.download { color: var(--accent); }
-    .icon-btn.download:hover { background: var(--accent-soft); border-color: var(--accent); }
-    .icon-btn.remove:hover { color: var(--danger); border-color: var(--danger); background: #fdecec; }
-    .icon-btn[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
-    .batch-outdated { color: var(--muted); font-size: 11px; font-weight: 500; }
-    .l2-controls {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 14px 16px 10px;
-      background: var(--paper);
-      border-left: 1px solid var(--line);
-      min-width: 0;
-      min-height: 0;
-      overflow: auto;
-    }
-    .label {
-      display: block;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .l1-row { display: flex; gap: 14px; align-items: flex-end; }
-    .modes { display: inline-flex; background: var(--chip); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
-    .modes button {
-      appearance: none;
-      border: 0;
-      background: transparent;
-      padding: 6px 14px;
-      min-height: 32px;
-      border-radius: 999px;
-      font-weight: 500;
-      font-size: 13.5px;
-      color: var(--ink);
-    }
-    .modes button.on, .modes button[aria-pressed="true"] {
-      background: var(--primary);
-      color: var(--paper);
-      box-shadow: 0 1px 3px rgba(28, 25, 22, 0.2);
-    }
-    .field-kb input {
-      width: 88px;
-      height: 36px;
-      border: 1px solid var(--line-strong);
-      border-radius: 12px;
-      padding: 0 10px;
-      background: var(--bg);
-      font-weight: 700;
-      font-size: 15px;
-    }
-    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-    .chips button {
-      appearance: none;
-      background: var(--bg);
-      border: 1px solid var(--line-strong);
-      border-radius: 999px;
-      padding: 5px 10px;
-      min-height: 32px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink);
-      line-height: 1.2;
-    }
-    .chips button small {
-      font-size: 10.5px;
-      font-weight: 500;
-      margin-left: 3px;
-      opacity: 0.8;
-      letter-spacing: 0.02em;
-    }
-    .chips button.on, .chips button[aria-pressed="true"] {
-      background: var(--accent-soft);
-      border-color: var(--accent-2);
-      color: var(--ink);
-    }
-    .chips button.on small { color: var(--ink); opacity: 0.8; }
-    .btn {
-      appearance: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      font-weight: 700;
-      border: 1px solid transparent;
-      text-decoration: none;
-      width: 100%;
-    }
-    .btn-compress {
-      background: transparent;
-      color: var(--ink);
-      border-color: var(--line-strong);
-      height: 44px;
-      font-size: 14px;
-    }
-    .btn-compress:active:not(:disabled),
-    .btn-download:active { transform: translateY(1px); }
-    .chips button:hover:not([aria-pressed="true"]) { border-color: var(--accent-2); }
-    .modes button:hover:not([aria-pressed="true"]) { background: var(--paper); }
-    .btn-compress:hover:not(:disabled) { background: var(--accent-soft); }
-    .btn-download {
-      background: var(--primary);
-      color: var(--paper);
-      border-color: var(--primary);
-      height: 44px;
-      font-size: 14.5px;
-      box-shadow: 0 4px 14px rgba(28, 25, 22, 0.16);
-    }
-    .btn-download:hover { background: #2c2825; }
-    .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.45; pointer-events: none; box-shadow: none; }
-    .btn:focus-visible, .modes button:focus-visible, .chips button:focus-visible, .more:focus-visible, .replace:focus-visible {
-      outline: 2px solid var(--accent-2);
-      outline-offset: 2px;
-    }
-    .progress-block { display: flex; flex-direction: column; gap: 4px; }
-    .status { margin: 0; min-height: 0; font-size: 12.5px; color: var(--muted); }
-    .status:empty { display: none; }
-    .status.is-busy { color: var(--ink); font-weight: 700; }
-    .status.is-error { color: var(--danger); font-weight: 700; }
-    .progress-row { display: flex; align-items: center; gap: 10px; }
-    .progress {
-      position: relative;
-      flex: 1 1 auto;
-      min-width: 0;
-      height: 8px;
-      background: var(--chip);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .progress .bar {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 0;
-      height: 100%;
-      background: var(--ok);
-      border-radius: inherit;
-      transform-origin: left center;
-    }
-    .progress-row .pct {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--ok);
-      width: 38px;
-      text-align: right;
-      font-variant-numeric: tabular-nums;
-    }
-    .rail-bottom {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .result {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--ok-bg);
-      border: 1px solid var(--ok-ring);
-      border-radius: 16px;
-      padding: 10px 12px;
-      color: var(--ok);
-    }
-    .result .check {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--ok);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      font-size: 16px;
-      font-weight: 800;
-      line-height: 1;
-    }
-    .result .txt { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-    .result strong { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
-    .result span.sub { font-size: 12.5px; font-weight: 500; color: var(--ok); }
-    .result.is-warn { background: var(--warn-bg); border-color: var(--warn-ring); color: var(--warn); }
-    .result.is-warn .check { background: #9a6400; }
-    .result.is-warn .sub, .result.is-warn strong { color: var(--warn); }
-    .more {
-      appearance: none;
-      background: none;
-      border: 0;
-      padding: 2px 0;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-align: left;
-      width: auto;
-    }
-    .more .chev {
-      display: inline-block;
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 5px 0 5px 7px;
-      border-color: transparent transparent transparent var(--muted);
-    }
-    .more[aria-expanded="true"] .chev { transform: rotate(90deg); }
-    .more-panel { display: flex; flex-direction: column; gap: 8px; }
-    .dims { display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px; align-items: center; }
-    .dims input, .checks input[type="number"] { width: 100%; }
-    .dims input {
-      height: 34px;
-      border: 1px solid var(--line-strong);
-      border-radius: 8px;
-      padding: 0 8px;
-      background: var(--bg);
-    }
-    .dims .times { color: var(--muted); font-weight: 700; }
-    .checks { display: flex; flex-direction: column; gap: 6px; }
-    .checks label, .sig-only label {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--ink);
-      cursor: pointer;
-    }
-    .checks input, .sig-only input { margin-top: 2px; accent-color: var(--accent); }
-    .sig-only { display: flex; flex-direction: column; gap: 6px; }
-    body[data-mode="photo"] .sig-only { display: none; }
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-    @media (max-width: 768px) {
-      html, body { height: auto; overflow: auto; }
-      .app { height: auto; min-height: 100%; overflow: visible; }
-      .topbar { flex-wrap: wrap; align-items: flex-start; padding: 12px; }
-      .brand { flex: 1 1 220px; }
-      .tagline { font-size: 12.5px; white-space: normal; }
-      .privacy { max-width: 100%; }
-      .stepper-wrap { flex-basis: auto; padding: 8px 12px; }
-      .step { font-size: 12px; gap: 6px; }
-      .step-line { margin: 0 8px; min-width: 12px; }
-      .l2-body { padding: 0 10px 16px; }
-      .l2-card { display: flex; flex-direction: column; overflow: visible; }
-      .stage { min-height: 280px; height: 46vh; }
-      .view img { width: 100%; height: 100%; object-fit: contain; object-position: center center; }
-      .l2-controls { border-left: 0; border-top: 1px solid var(--line); overflow: visible; }
-      .rail-bottom { margin-top: 0; }
-    }
-  </style>
-</head>
-<body data-mode="photo">
-  <div class="app">
-    <header class="topbar">
-      <div class="brand">
-        <svg class="logo" viewBox="0 0 32 32" width="36" height="36" aria-hidden="true">
-          <defs>
-            <linearGradient id="h-cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#BFDBFE"/><stop offset="100%" stop-color="#93C5FD"/></linearGradient>
-            <linearGradient id="hm-cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1E40AF"/></linearGradient>
-          </defs>
-          <rect x="2.0" y="9.0" width="21.0" height="21.0" rx="6.0" fill="url(#h-cg)"/>
-          <path d="M 4.60,26.00 L 7.43,18.80 L 9.64,21.68 L 12.58,18.00 L 15.10,26.00 Z" fill="#FFFFFF" fill-opacity="0.85"/>
-          <rect x="8.2" y="5.0" width="17.0" height="17.0" rx="4.8" fill="url(#hm-cg)"/>
-          <rect x="15.0" y="2.0" width="14.2" height="14.2" rx="4.0" fill="#1C1916"/>
-          <circle cx="24.0" cy="6.15" r="1.25" fill="#93C5FD"/>
-          <path d="M 17.40,14.00 L 19.78,8.24 L 21.62,10.54 L 24.09,7.60 L 26.20,14.00 Z" fill="#F8FAFC"/>
-        </svg>
-        <div>
-          <h1><span class="w-imgs">Imgs</span><span class="w-rest">Compressor</span></h1>
-          <p class="tagline">Free Image Compressor, No SignUp Needed</p>
-        </div>
-      </div>
-      <span class="privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="5" y="11" width="14" height="10" rx="2"/>
-          <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
-        </svg>
-        Your photo never leaves this device.
-      </span>
-    </header>
-    <div class="stepper-wrap">
-      <div class="stepper" id="stepper" aria-label="Steps">
-        <div class="step current" id="step1" data-state="current"><span class="num">1</span> <span class="step-label">1 Upload</span></div>
-        <div class="step-line" id="line1"></div>
-        <div class="step" id="step2" data-state="todo"><span class="num">2</span> <span class="step-label">2 Choose KB</span></div>
-        <div class="step-line" id="line2"></div>
-        <div class="step" id="step3" data-state="todo"><span class="num">3</span> <span class="step-label">3 Download</span></div>
-      </div>
-    </div>
-    <div class="l2-body">
-      <section class="l2-card">
-        <div class="stage" id="stage">
-          <div class="stage-toolbar" id="stageToolbar">
-            <div class="seg" role="tablist" aria-label="Upload mode">
-              <button type="button" id="tabSingle" role="tab" aria-selected="true">Single</button>
-              <button type="button" class="batch-only" id="tabBatch" role="tab" aria-selected="false">Batch</button>
-            </div>
-            <div class="stage-tools" id="stageTools" hidden>
-              <button type="button" class="text-btn batch-only" id="addMore">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-                Add more
-              </button>
-              <button type="button" class="text-btn" id="clearAll">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
-                Clear all
-              </button>
-            </div>
-          </div>
-          <div class="stage-body">
-          <div class="drop" id="drop" tabindex="0">
-            <strong id="dropTitle">Drop a photo here, or click to choose</strong>
-            <span>JPG, PNG, WebP, HEIC</span>
-          </div>
-          <div class="view" id="view" hidden data-loaded="0" data-split="50">
-            <img id="imgAfter" alt="Compressed JPEG" hidden>
-            <img id="imgBefore" class="before" alt="Original image">
-            <span class="tag left">Original</span>
-            <span class="tag right" id="tagAfter" hidden>Compressed</span>
-            <div class="handle" id="handle" hidden>
-              <div class="bar"></div>
-              <button type="button" class="knob" id="knob" role="slider" aria-label="Compare original and compressed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M6.5 3.5L2.5 8l4 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M9.5 3.5L13.5 8l-4 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-            <div class="compare-meta">
-              <span class="cap" id="metaLeft"></span>
-              <span class="cap cap-right" id="metaRight"></span>
-            </div>
-            <div class="preview-actions">
-              <button type="button" class="replace" id="replacePhoto">Replace photo</button>
-            </div>
-            <button type="button" class="back-batch" id="backBatch" hidden>Back to list</button>
-          </div>
-          <div class="batch batch-only" id="batch" hidden>
-            <p class="batch-note" id="batchNote" hidden></p>
-            <div class="batch-list" id="batchList"></div>
-          </div>
-          </div>
-        </div>
-        <aside class="l2-controls">
-          <div class="l1-row">
-            <div>
-              <span class="label" id="mode-label">Mode</span>
-              <div class="modes" role="group" aria-labelledby="mode-label">
-                <button type="button" id="mode-photo" class="on" aria-pressed="true">Photo</button>
-                <button type="button" id="mode-signature" aria-pressed="false">Signature</button>
-              </div>
-            </div>
-            <div class="field-kb">
-              <label class="label" for="targetKb">Max size (KB)</label>
-              <input id="targetKb" type="number" min="1" max="20000" step="1" value="30">
-            </div>
-          </div>
-          <div>
-            <span class="label">Presets</span>
-            <div class="chips" id="presets" role="group" aria-label="Size presets"></div>
-          </div>
-          <div class="sig-only" id="sigOpts">
-            <label>
-              <input id="cleanBg" type="checkbox" checked>
-              <span>Clean background</span>
-            </label>
-            <label>
-              <input id="grayscale" type="checkbox" checked>
-              <span>Grayscale / black ink</span>
-            </label>
-          </div>
-          <button type="button" class="btn btn-download batch-only" id="compressNew" hidden>Compress new</button>
-          <button type="button" class="btn btn-compress" id="compressBtn" disabled>Compress</button>
-          <div class="progress-block">
-            <p class="status" id="status" role="status"></p>
-            <div class="progress-row">
-              <div class="progress" id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Work progress" data-pct="0" data-steps="0" data-phase="">
-                <div class="bar" id="progressFill"></div>
-              </div>
-              <span class="pct" id="progressPct">0%</span>
-            </div>
-          </div>
-          <div class="rail-bottom">
-            <div class="result" id="result" hidden data-ready="0" data-ok="0">
-              <span class="check" id="resultMark" aria-hidden="true">✓</span>
-              <div class="txt">
-                <strong id="resultMain"></strong>
-                <span class="sub" id="resultSub"></span>
-              </div>
-            </div>
-            <a class="btn btn-download" id="download" aria-disabled="true">Download</a>
-            <button type="button" class="btn btn-download batch-only" id="zipBtn" hidden>Download all (ZIP)</button>
-            <div>
-              <button type="button" class="more" id="moreBtn" aria-expanded="false" aria-controls="morePanel">
-                <span class="chev" aria-hidden="true"></span> More options
-              </button>
-              <div class="more-panel" id="morePanel" hidden>
-                <span class="label">Exact size (pixels)</span>
-                <div class="dims">
-                  <input id="pixW" type="number" min="1" max="10000" placeholder="Width" aria-label="Width in pixels">
-                  <span class="times" aria-hidden="true">×</span>
-                  <input id="pixH" type="number" min="1" max="10000" placeholder="Height" aria-label="Height in pixels">
-                </div>
-                <div class="checks">
-                  <label>
-                    <input id="fitWhite" type="checkbox" checked>
-                    <span>Fit with white background (no cropping or stretching)</span>
-                  </label>
-                  <label>
-                    <input id="siUnits" type="checkbox" checked>
-                    <span>1 KB = 1000 bytes. Uncheck for 1024.</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </aside>
-      </section>
-    </div>
-  </div>
-  <input id="file" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" aria-label="Choose an image">
-  <input id="batchFile" class="visually-hidden batch-only" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" aria-label="Choose images">
-
-  <script>
-  (function () {
+(function () {
     "use strict";
 
     /* Feature switches. Batch can be turned off later without removing the section below. */
+    /* Analytics placeholder: no tracker is loaded.
+       A static page has no visit log without a third-party account or a server.
+       If you add one later, call it from here and never send image bytes. */
     var FEATURES = { batch: true, batchMax: 20 };
     document.documentElement.setAttribute("data-batch", FEATURES.batch ? "on" : "off");
 
@@ -1070,11 +103,15 @@
       return els.siUnits.checked ? UNIT_SI : UNIT_IEC;
     }
 
-    function formatKB(bytes, u) {
+    function kbLabel(bytes, u) {
       u = u || unit();
       var kb = bytes / u;
       var n = kb >= 10 ? (Math.round(kb * 10) / 10) : (Math.round(kb * 100) / 100);
-      return (n % 1 === 0 ? String(n) : String(n)) + " KB";
+      return String(n);
+    }
+
+    function formatKB(bytes, u) {
+      return kbLabel(bytes, u) + " KB";
     }
 
     function formatBytes(bytes) {
@@ -1193,7 +230,7 @@
       num.textContent = "";
       if (kind === "done") num.appendChild(svgIcon("check", 14));
       else num.textContent = String(n);
-      el.querySelector(".step-label").textContent = n + " " + label;
+      el.querySelector(".step-label").textContent = label;
     }
 
     function updateSteps() {
@@ -1248,6 +285,13 @@
       els.imgBefore.style.clipPath = "inset(0 " + rightClip + "px 0 0)";
       els.handle.style.left = localX + "px";
       els.knob.setAttribute("aria-valuenow", String(Math.round(pct)));
+    }
+
+    function applyPagePreset() {
+      var preset = document.body.getAttribute("data-preset");
+      if (preset) els.targetKb.value = preset;
+      var mode = document.body.getAttribute("data-mode");
+      if (mode === "signature" || mode === "photo") setMode(mode);
     }
 
     function setMode(mode) {
@@ -1500,9 +544,23 @@
       return { blob: fit[0].blob, quality: fit[0].q, fits: true };
     }
 
-    async function compressToTarget(sourceCanvas, targetBytes, onStep) {
-      var canvas = sourceCanvas;
+    function applySmartCap(canvas, options) {
+      if (!options || (options.targetW && options.targetH)) return canvas;
+      var maxSide = 0;
+      if (options.targetKb <= 50) maxSide = 1200;
+      else if (options.targetKb <= 100) maxSide = 1600;
+      if (!maxSide) return canvas;
+      var w = canvas.width;
+      var h = canvas.height;
+      var longSide = Math.max(w, h);
+      if (longSide <= maxSide) return canvas;
+      var scale = maxSide / longSide;
+      return resizeCanvas(canvas, Math.max(1, Math.round(w * scale)), Math.max(1, Math.round(h * scale)));
+    }
+
+    async function compressToTarget(sourceCanvas, targetBytes, onStep, options) {
       var requested = { w: sourceCanvas.width, h: sourceCanvas.height };
+      var canvas = applySmartCap(sourceCanvas, options);
       var safety = 80;
       while (safety--) {
         var attempt = await bestJpegAtSize(canvas, targetBytes, onStep);
@@ -1570,40 +628,11 @@
       options = options || readOptions();
       var img = await loadImageFile(file);
       var src = sourceSize(img);
-      var keepOriginal = isJpegFile(file) && file.size <= options.targetBytes && !needsReencode(options);
-      if (keepOriginal) {
-        closeImage(img);
-        if (onStep) onStep("Already under the target.");
-        var kept = {
-          blob: jpegBlobFromFile(file),
-          width: src.w,
-          height: src.h,
-          quality: null,
-          requested: { w: src.w, h: src.h },
-          downscaled: false,
-          keptOriginal: true,
-          originalBytes: file.size,
-          originalWidth: src.w,
-          originalHeight: src.h,
-          options: options,
-          type: "image/jpeg"
-        };
-        lastResult = kept;
-        window.UnderKB.lastResult = kept;
-        return kept;
-      }
       if (onStep) onStep("Preparing image…");
       var canvas = drawSource(img, options);
       closeImage(img);
-      var cap = options.targetBytes;
-      if (file.size <= options.targetBytes && !mayExceedOriginal(file)) {
-        cap = Math.min(options.targetBytes, file.size);
-      }
-      var result = await compressToTarget(canvas, cap, onStep);
+      var result = await compressToTarget(canvas, options.targetBytes, onStep, options);
       if (result.blob.size > options.targetBytes) {
-        throw new Error("The file is still over the limit. Please try a larger target.");
-      }
-      if (file.size <= options.targetBytes && !mayExceedOriginal(file) && result.blob.size > file.size) {
         throw new Error("The file is still over the limit. Please try a larger target.");
       }
       result.keptOriginal = false;
@@ -1615,6 +644,15 @@
       lastResult = result;
       window.UnderKB.lastResult = result;
       return result;
+    }
+
+    function fileStem(fileName) {
+      var parts = splitFileName(fileName || "photo");
+      return (parts.base || "photo").replace(/[^\w.\-]+/g, "-").replace(/^-+|-+$/g, "") || "photo";
+    }
+
+    function downloadFileName(fileName, bytes, u) {
+      return fileStem(fileName) + "-" + kbLabel(bytes, u) + "kb.jpg";
     }
 
     function splitFileName(name) {
@@ -1718,13 +756,10 @@
       els.result.classList.add("is-on");
       els.resultMark.textContent = "✓";
       els.resultMain.textContent = kbText + " of " + result.options.targetKb + " KB";
-      els.resultSub.textContent = result.keptOriginal
-        ? ("Already under " + result.options.targetKb + " KB, kept original quality")
+      els.resultSub.textContent = file.size <= result.options.targetBytes
+        ? "Under the limit. Camera metadata removed."
         : "Under the limit";
-      var stem = result.options.mode === "signature" ? "signature" : "photo";
-      var kbFloor = Math.max(1, Math.floor(result.blob.size / result.options.unit));
-      var name = stem + "_" + kbFloor + "KB.jpg";
-      els.download.download = name;
+      els.download.download = downloadFileName(file.name, result.blob.size, result.options.unit);
       els.download.href = state.afterUrl;
       els.download.setAttribute("aria-disabled", "false");
       els.download.textContent = "Download " + kbText + " JPG";
@@ -1972,10 +1007,8 @@
       return svg;
     }
 
-    function outputBaseName(file, targetKb, used) {
-      var parts = splitFileName(file.name || "photo");
-      var base = (parts.base || "photo").replace(/[^\w.\-]+/g, "-").replace(/^-+|-+$/g, "") || "photo";
-      var stem = base + "-" + targetKb + "kb";
+    function outputBaseName(file, bytes, u, used) {
+      var stem = fileStem(file && file.name) + "-" + kbLabel(bytes, u) + "kb";
       var name = stem + ".jpg";
       var n = 2;
       while (used[name]) {
@@ -2307,7 +1340,7 @@
             item.status = "done";
             item.settings = key;
             item.stamp = (previousStamp || 0) + 1;
-            item.outName = outputBaseName(item.file, options.targetKb, used);
+            item.outName = outputBaseName(item.file, result.blob.size, options.unit, used);
             item.dlUrl = URL.createObjectURL(result.blob);
           } catch (err) {
             if (runId !== state.runId) {
@@ -2551,6 +1584,7 @@
     });
 
     renderPresets();
+    applyPagePreset();
     updateCompressButton();
     updateSteps();
 
@@ -2564,6 +1598,3 @@
       PRESETS: PRESETS
     };
   })();
-  </script>
-</body>
-</html>
