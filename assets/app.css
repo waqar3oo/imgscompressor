@@ -456,11 +456,33 @@
       font-weight: 700;
     }
     .batch-note {
-      margin: 0;
-      flex: 1 1 160px;
-      color: var(--muted);
-      font-size: 12.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+      align-self: stretch;
+      box-sizing: border-box;
+      width: auto;
+      max-width: 100%;
+      min-width: 0;
+      margin: 8px 10px 4px;
+      padding: 8px 8px 8px 10px;
+      background: #FFFBEB;
+      border: 1px solid #FCD34D;
+      color: #92400E;
+      border-radius: 8px;
     }
+    .batch-note[hidden] { display: none !important; }
+    .batch-note-icon { width: 16px; height: 16px; flex: 0 0 auto; display: block; }
+    .batch-note-text {
+      margin: 0;
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .batch-note .icon-btn { flex: 0 0 auto; width: 28px; height: 28px; }
     .batch-list {
       flex: 1 1 auto;
       min-height: 0;

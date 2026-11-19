@@ -5,7 +5,7 @@
     /* Analytics placeholder: no tracker is loaded.
        A static page has no visit log without a third-party account or a server.
        If you add one later, call it from here and never send image bytes. */
-    var FEATURES = { batch: true, batchMax: 20 };
+    var FEATURES = { batch: true, batchMax: 100 };
     document.documentElement.setAttribute("data-batch", FEATURES.batch ? "on" : "off");
 
     var UNIT_SI = 1000;
@@ -984,6 +984,7 @@
         plus: "<path d=\"M12 5v14\"/><path d=\"M5 12h14\"/>",
         trash: "<path d=\"M3 6h18\"/><path d=\"M8 6V4h8v2\"/><path d=\"M19 6l-1 14H6L5 6\"/>",
         check: "<path d=\"M20 6 9 17l-5-5\"/>",
+        alert: "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>",
         upload: "<path d=\"M12 16V4\"/><path d=\"m7 9 5-5 5 5\"/><path d=\"M5 20h14\"/>",
         lock: "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>"
       };
@@ -1111,9 +1112,42 @@
       updateSteps();
     }
 
+    var batchNoteTimer = 0;
+    function batchLimitNote() {
+      return "Batch limit is " + FEATURES.batchMax + " images. Extra files were skipped.";
+    }
     function setBatchNote(msg) {
-      els.batchNote.hidden = !msg;
-      els.batchNote.textContent = msg || "";
+      if (!els.batchNote) return;
+      if (batchNoteTimer) {
+        clearTimeout(batchNoteTimer);
+        batchNoteTimer = 0;
+      }
+      var text = els.batchNote.querySelector(".batch-note-text");
+      if (!text) {
+        els.batchNote.textContent = "";
+        els.batchNote.setAttribute("role", "status");
+        var icon = svgIcon("alert", 16);
+        icon.classList.add("batch-note-icon");
+        text = document.createElement("p");
+        text.className = "batch-note-text";
+        var close = document.createElement("button");
+        close.type = "button";
+        close.className = "icon-btn remove";
+        close.setAttribute("aria-label", "Dismiss notice");
+        close.appendChild(svgIcon("x", 16));
+        close.addEventListener("click", function () { setBatchNote(""); });
+        els.batchNote.appendChild(icon);
+        els.batchNote.appendChild(text);
+        els.batchNote.appendChild(close);
+      }
+      if (!msg) {
+        els.batchNote.hidden = true;
+        text.textContent = "";
+        return;
+      }
+      text.textContent = msg;
+      els.batchNote.hidden = false;
+      batchNoteTimer = setTimeout(function () { setBatchNote(""); }, 12000);
     }
 
     function inspectItem(id) {
@@ -1213,10 +1247,10 @@
       var room = FEATURES.batchMax - state.items.length;
       if (supported.length > room) {
         supported = supported.slice(0, Math.max(0, room));
-        note = "Only " + FEATURES.batchMax + " images at a time. Extra files were not added.";
+        note = batchLimitNote();
       }
       if (!supported.length) {
-        setBatchNote("Only " + FEATURES.batchMax + " images at a time.");
+        setBatchNote(batchLimitNote());
         return;
       }
       var wasRunning = state.running;

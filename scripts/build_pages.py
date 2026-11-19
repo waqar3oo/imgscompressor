@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = (ROOT / "site.config.js").read_text()
 ORIGIN = re.search(r'origin:\s*"([^"]+)"', CONFIG).group(1).rstrip("/")
+BATCH_MAX = re.search(r"batchMax:\s*(\d+)", (ROOT / "assets" / "app.js").read_text()).group(1)
 
 LINKS = [
     ("Home", ""),
@@ -107,7 +108,7 @@ HOME_FAQS = [
     ),
     (
         "Can I compress more than one picture?",
-        "Yes. Batch uses the same mode and limit for up to 20 files, then packs the finished JPEGs into a ZIP.",
+        "Yes. Batch uses the same mode and limit for up to " + BATCH_MAX + " files, then packs the finished JPEGs into a ZIP.",
     ),
     (
         "What if one file cannot hit the limit?",
@@ -126,7 +127,7 @@ HOME_FAQS = [
 HOME_BODY = """
   <h2>How it works</h2>
   <ol>
-    <li>Add one picture, or switch to Batch and add up to 20.</li>
+    <li>Add one picture, or switch to Batch and add up to """ + BATCH_MAX + """.</li>
     <li>Choose Photo or Signature, then type a maximum or tap a preset.</li>
     <li>Press Compress. Download the JPEG, or a ZIP of every finished file.</li>
   </ol>
